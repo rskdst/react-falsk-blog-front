@@ -16,7 +16,6 @@ function HeaderBar(props) {
             <div className="header-left">
                 {/*<Link to='/login'><span className='header-login'>登录</span></Link>*/}
                 <span className='header-login' onClick={handleLogin}>登录</span>
-
             </div>
 
         </div>
