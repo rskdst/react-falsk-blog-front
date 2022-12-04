@@ -1,0 +1,20 @@
+.register {
+    width: 25rem;
+    height: 25rem;
+    margin: auto;
+    position: absolute;
+    padding: 1rem 2rem;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    opacity: 0.9;
+    border: 1px solid rgba(5, 5, 5, 0.06);
+}
+.register-main {
+    margin: 1rem;
+}
+.ant-col-16 {
+    max-width: 100%;
+}

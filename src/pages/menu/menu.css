@@ -1,0 +1,32 @@
+.menuEdit {
+    height: 3rem;
+    width: 100%;
+    display: flex;
+    /*margin-bottom: 0.5rem;*/
+}
+.menu-main {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.menu-main-left {
+    width: 30%;
+    min-height: 30rem;
+    max-height: 100%;
+    overflow: auto;
+    padding: 0 1rem;
+    display: flex;
+}
+.menu-main-left .ant-tree {
+    width: 100%;
+    padding: 1rem;
+}
+.menu-main-right {
+    width: 70%;
+    height: 100%;
+}
+
+.menuEdit-right {
+    margin-left: auto;
+}

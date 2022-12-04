@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+}
+.header-left {
+    width: 10rem;
+    color: white;
+    margin-left: auto;
+}
+.header-login {
+    float: right;
+    margin-right: 1rem;
+    display: inline-block;
+    width: 3rem;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+.header-login:hover {
+    color: aqua;
+}

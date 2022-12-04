@@ -1,0 +1,61 @@
+.login {
+  /*background: no-repeat center/100% url("../../login.jpg");*/
+  height: 100vh;
+}
+
+.loginMain {
+  width: 25rem;
+  height: 25rem;
+  margin: auto;
+  position: absolute;
+  padding: 1rem 2rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  opacity: 0.9;
+  border: 1px solid rgba(5, 5, 5, 0.06);
+}
+.formHeader {
+  text-align: center;
+  margin: 0 0 1rem 0;
+  border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+}
+.tabsTab {
+  display: inline-block;
+  padding: 1rem;
+  cursor: pointer;
+}
+.tabsTab:hover {
+  color: #1677ff;
+
+}
+.active {
+  color: #1677ff;
+  border-bottom: 1px solid #1677ff;
+}
+.formMain {
+  margin: 3rem 1rem;
+}
+.formMain .ant-form-item {
+  margin: 1rem 0;
+}
+
+.formMain .ant-col-8 {
+  margin: 0 auto;
+  flex: inherit;
+  /*//text-align: center !important;*/
+}
+.formMain .ant-select-selection-item {
+  padding-right: 0 !important;
+}
+.formMain .ant-col-16 {
+  max-width: 100%;
+}
+.formMain .ant-col-offset-8 {
+  margin: 0 auto;
+}
+.formMain .ant-checkbox-wrapper{
+  margin-left: 7rem;
+}
