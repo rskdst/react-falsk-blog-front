@@ -2,10 +2,14 @@
 import Layout from "./layouts/Layout";
 import {Route, Routes} from "react-router-dom";
 import Login from "./pages/login";
-import React from "react";
+import React,{useEffect} from "react";
 import Register from "./pages/register";
 
 function App() {
+
+    useEffect(()=>{
+
+    },[])
   return (
       <div>
         <Routes>

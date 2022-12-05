@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 
 
 import {Button, Form, Input, Switch, Upload, TreeSelect} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
 import Tip from "../../../components/layout/Tip";
 import './index.css'
 import {connect} from "react-redux";
@@ -65,7 +64,6 @@ function IncDialog(props) {
         const weight = menu.weight
         const state = menu.state ? 1 : 0
         let data
-        debugger
         if (JSON.stringify(props.record) === "{}"){
             data = {label,pid,pname,icon,routePath,componentPath,weight,state}
             props.addMenuAsync(data)
@@ -115,7 +113,7 @@ function IncDialog(props) {
                 <Form.Item name={['menu', 'weight']} label="权重" initialValue={props.record.weight} rules={[{required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'state']} label="启用" initialValue={props.record.state||"1"} labelCol={{'span': 4, 'offset': 2}}>
+                <Form.Item name={['menu', 'state']} label="启用" valuePropName={props.record.state==="1"?"checked":"unchecked"} initialValue={props.record.state||"1"} labelCol={{'span': 4, 'offset': 2}}>
                     <Switch defaultChecked={Object.keys(props.record).length>0&&props.record.state==="0"?false:true}/>
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }} labelCol={{'span': 4, 'offset': 2}}>

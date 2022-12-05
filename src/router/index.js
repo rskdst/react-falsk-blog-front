@@ -9,21 +9,15 @@ export default function GetRoutes(routes) {
     function bindRouter(routes) {
         routes.map((item)=>{
             const Component = loadable(() => {
-                return import("../"+item.componentpath)
-            });
-            if (item.label==="登录"||item.label==="404"){
-                item.path = item.routepath
-                item.key = item.routepath
-                item.element=<Component />
-
-            }
-            else if (item.children){
+                return import("../"+item.componentPath)
+            })
+            if (item.children){
                 item.iconname=item.icon
                 if (typeof(item.icon)=='string'){
                     item.icon = React.createElement(Icon[item.icon])
                 }
-                item.path = item.routepath
-                item.key = item.routepath
+                item.path = item.routePath
+                item.key = item.routePath
 
                 item.children = [...bindRouter(item.children)]
             }else {
@@ -31,8 +25,8 @@ export default function GetRoutes(routes) {
                 if (typeof(item.icon)=='string'){
                     item.icon = React.createElement(Icon[item.icon])
                 }
-                item.path = item.routepath
-                item.key = item.routepath
+                item.path = item.routePath
+                item.key = item.routePath
 
                 item.element=<Component />
             }

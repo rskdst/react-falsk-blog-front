@@ -3,7 +3,8 @@ import request from '../../utils/request'
 import api from '../../services/index'
 import {message} from "antd";
 
-import {REGISTER,LOGIN} from '../constants'
+import {REGISTER, LOGIN, GETUSER, GETUSER_ASYNC} from '../constants'
+import GetRoutes from "../../router";
 
 //注册用户
 function* register({data}) {
@@ -31,7 +32,7 @@ function* login({data}) {
         if (res.code!==200){
             message.error(res.data,5)
         }else {
-            window.location = "/"
+            window.location.replace("/")
             message.success("登录成功！")
         }
 
@@ -40,8 +41,24 @@ function* login({data}) {
         message.error("登录失败！")
     }
 }
+
+//获取用户数据
+function* getUser({data}) {
+    //此处编写异步请求
+    try{
+        const res = yield call(request.post,api.getUser,data)
+        yield put({type: GETUSER,data:res.data});
+        message.success("获取数据成功！")
+
+    }catch (e) {
+        console.log("异步请求出错")
+        message.error("获取数据失败！")
+    }
+}
+
 // 监听异步自增事件
 export function* takeUser() {
     yield takeEvery(REGISTER, register);
     yield takeEvery(LOGIN, login);
+    yield takeEvery(GETUSER_ASYNC, getUser);
 }

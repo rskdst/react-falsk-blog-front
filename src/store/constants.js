@@ -8,3 +8,5 @@ export const EDITMENU_ASYNC = "EDITMENU_ASYNC"
 //用户
 export const REGISTER = "REGISTER"
 export const LOGIN = "LOGIN"
+export const GETUSER = "GETUSER"
+export const GETUSER_ASYNC = "GETUSER_ASYNC"

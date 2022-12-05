@@ -34,7 +34,7 @@ function Register(props) {
         <div className="register">
             <h2 style={{borderBottom:'1px solid rgba(5, 5, 5, 0.06)'}}>用户注册</h2>
             <div className="register-main">
-                <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} ref={formRef}>
+                <Form name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} ref={formRef}>
                     <Form.Item
                         name='username'
                         label="用户名"

@@ -1,5 +1,5 @@
 
-import {REGISTER,LOGIN} from '../constants'
+import {REGISTER,LOGIN,GETUSER_ASYNC} from '../constants'
 
 export const register = (data)=>{
     return {
@@ -12,5 +12,12 @@ export const login = (data)=>{
     return {
         type:LOGIN,
         data:data
+    }
+}
+
+
+export const getUser = ()=>{
+    return {
+        type:GETUSER_ASYNC
     }
 }

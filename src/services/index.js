@@ -4,12 +4,14 @@
  */
 export default {
     //菜单
-    getMenu:'/menu/Menu',
+    getMenu:'/menu/menu',
     getTreeMenu:'/menu/Menu',
     setMenu:"/menu/addMenu",
     editMenu:"/menu/editMenu",
 
     //用户
+    getUser:"/user/user",
     login:'/user/login',
     register:'/user/register',
+
 }
