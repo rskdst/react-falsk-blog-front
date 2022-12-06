@@ -5,7 +5,7 @@ import {useRoutes} from 'react-router-dom'
 import * as Icon from '@ant-design/icons'
 import React from "react";
 export default function GetRoutes(routes) {
-    console.log("########")
+    console.log(routes)
     function bindRouter(routes) {
         routes.map((item)=>{
             const Component = loadable(() => {

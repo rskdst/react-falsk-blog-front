@@ -104,10 +104,10 @@ function IncDialog(props) {
                 <Form.Item name={['menu', 'icon']} label="图标" initialValue={props.record.iconname} labelCol={{'span': 4, 'offset': 2}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'routePath']} label="路由地址" initialValue={props.record.routepath} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'routePath']} label="路由地址" initialValue={props.record.routePath} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'componentPath']} label="组件地址" initialValue={props.record.componentpath} labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'componentPath']} label="组件地址" initialValue={props.record.componentPath} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
                 <Form.Item name={['menu', 'weight']} label="权重" initialValue={props.record.weight} rules={[{required:true }]} labelCol={{'span': 5, 'offset': 1}}>

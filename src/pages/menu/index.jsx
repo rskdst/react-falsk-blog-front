@@ -63,16 +63,16 @@ const Menu = (props) => {
         },
         {
             title: '路由地址',
-            key: 'routepath',
-            dataIndex: 'routepath',
+            key: 'routePath',
+            dataIndex: 'routePath',
             align:"center",
             width:'7rem',
             onHeaderCell:() => ({style:{textAlign: 'center'}})
         },
         {
             title: '组件地址',
-            key: 'componentpath',
-            dataIndex: 'componentpath',
+            key: 'componentPath',
+            dataIndex: 'componentPath',
             align:"center",
             width:'7rem',
             onHeaderCell:() => ({style:{textAlign: 'center'}})

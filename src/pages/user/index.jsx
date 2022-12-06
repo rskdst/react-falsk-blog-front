@@ -48,8 +48,8 @@ const columns = [
     },
     {
         title: '所属角色',
-        dataIndex: 'role',
-        key: 'role',
+        dataIndex: 'rolename',
+        key: 'rolename',
     },
     {
         title: '操作',
@@ -64,10 +64,13 @@ const columns = [
 ];
 
 function User(props) {
-
+    console.log(props)
     //请求用户数据
     useEffect(()=>{
-        props.getUser()
+        if (props.user.length===0){
+            props.getUser()
+        }
+
     },[])
 
     const onFinish = (values) => {
@@ -100,7 +103,7 @@ function User(props) {
                         label="状态"
                         name="state"
                     >
-                        <Select defaultValue="2">
+                        <Select defaultValue="1">
                             <Option value="1">正常</Option>
                             <Option value="2">注销</Option>
                         </Select>
