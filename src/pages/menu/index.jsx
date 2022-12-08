@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {getMenuAsync} from "../../store/actions/menu";
 import IncDialog from "./components/IncDialog";
 import Dialog from "../../components/layout/Dialog";
+import AuthButton from "../../components/Permissions/authButton";
 
 
 
@@ -63,16 +64,16 @@ const Menu = (props) => {
         },
         {
             title: '路由地址',
-            key: 'routePath',
-            dataIndex: 'routePath',
+            key: 'routepath',
+            dataIndex: 'routepath',
             align:"center",
             width:'7rem',
             onHeaderCell:() => ({style:{textAlign: 'center'}})
         },
         {
             title: '组件地址',
-            key: 'componentPath',
-            dataIndex: 'componentPath',
+            key: 'componentpath',
+            dataIndex: 'componentpath',
             align:"center",
             width:'7rem',
             onHeaderCell:() => ({style:{textAlign: 'center'}})
@@ -117,6 +118,7 @@ const Menu = (props) => {
             <div className="menuEdit">
                 <div className="menuEdit-left">
                     <Button type='primary' onClick={addMenu}>+新增</Button>
+                    <AuthButton name="menu_delete">删除</AuthButton>
                 </div>
                 <div className="menuEdit-right">
                     <Button onClick={refresh}>刷新</Button>

@@ -1,11 +1,13 @@
-import React,{useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import 'dayjs/locale/zh-cn';
 import {Button, Form, Input,Select,DatePicker,Space, Table, Tag} from "antd";
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import {connect} from "react-redux";
 import {getUser} from "../../store/actions/user";
 
-import './index.css'
+import '../container.css'
+import Dialog from "../../components/layout/Dialog";
+import IncDialog from "../user/components/IncDialog";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -64,6 +66,8 @@ const columns = [
 ];
 
 function User(props) {
+    const [dialogShow,setDialogShow] = useState({state:false}) // dialog显示
+    const [record,setRecord] = useState({}) // dialog record数据
     console.log(props)
     //请求用户数据
     useEffect(()=>{
@@ -73,13 +77,23 @@ function User(props) {
 
     },[])
 
+    const changeDialog = () => {
+        setDialogShow({state:!dialogShow.state});
+    }
+    //添加菜单
+    const addUser = ()=>{
+        setRecord({})
+        changeDialog()
+    }
+
     const onFinish = (values) => {
         console.log('Finish:', values);
     };
 
     return (
-        <div className="user">
-            <div className="user-search">
+        <div className="content-main">
+            {dialogShow.state && <Dialog ><IncDialog onClose={changeDialog} record={record}/></Dialog>}
+            <div className="content-search">
                 <Form name="horizontal_login" layout="inline" onFinish={onFinish}>
                     <Form.Item
                         label="用户名"
@@ -121,11 +135,11 @@ function User(props) {
                     </Form.Item>
                 </Form>
             </div>
-            <div className="user-operate">
-                <Button type="primary">新增</Button>
+            <div className="content-operate">
+                <Button type="primary" onClick={addUser}>新增</Button>
             </div>
-            <div className="user-main">
-                <Table columns={columns} dataSource={props.user} bordered defaultExpandAllRows/>;
+            <div className="content-table">
+                <Table columns={columns} dataSource={props.user} rowKey={record => record.id} bordered defaultExpandAllRows/>;
             </div>
         </div>
     );

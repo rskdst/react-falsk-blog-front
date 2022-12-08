@@ -1,14 +1,14 @@
-.user {
+.content-main {
     display: flex;
     flex-direction: column;
 }
-.user-search {
+.content-search {
     padding: 10px;
 }
-.user-operate {
+.content-operate {
     padding: 10px;
 }
-.user-main {
+.content-table {
     padding: 0 10px 10px 10px;
     min-height: 30rem;
 }

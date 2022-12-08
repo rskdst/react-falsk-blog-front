@@ -9,15 +9,15 @@ export default function GetRoutes(routes) {
     function bindRouter(routes) {
         routes.map((item)=>{
             const Component = loadable(() => {
-                return import("../"+item.componentPath)
+                return import("../"+item.componentpath)
             })
             if (item.children){
                 item.iconname=item.icon
                 if (typeof(item.icon)=='string'){
                     item.icon = React.createElement(Icon[item.icon])
                 }
-                item.path = item.routePath
-                item.key = item.routePath
+                item.path = item.routepath
+                item.key = item.routepath
 
                 item.children = [...bindRouter(item.children)]
             }else {
@@ -25,8 +25,8 @@ export default function GetRoutes(routes) {
                 if (typeof(item.icon)=='string'){
                     item.icon = React.createElement(Icon[item.icon])
                 }
-                item.path = item.routePath
-                item.key = item.routePath
+                item.path = item.routepath
+                item.key = item.routepath
 
                 item.element=<Component />
             }

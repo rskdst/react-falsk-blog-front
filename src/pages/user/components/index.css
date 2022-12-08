@@ -1,0 +1,11 @@
+.main {
+    width: 30rem;
+    min-height: 30rem;
+    position: absolute;
+    border: 2px solid rgba(5, 5, 5, 0.06);
+    background: #ffffff;
+    left: 30%;
+    top: 4rem;
+    z-index: 12
+
+}

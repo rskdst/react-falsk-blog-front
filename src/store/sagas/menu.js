@@ -12,10 +12,9 @@ function* getMenu() {
     try{
         const res = yield call(request.get,api.getMenu)
         yield put({type: GETMENU,data:GetRoutes(res.data)});
-        message.success("获取数据成功！")
     }catch (e) {
         console.log("异步请求出错")
-        message.error("获取数据失败！")
+        message.error("获取菜单失败！")
     }
 }
 //新增菜单
