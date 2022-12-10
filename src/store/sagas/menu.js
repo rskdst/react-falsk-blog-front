@@ -2,7 +2,7 @@ import {put,call, takeEvery} from 'redux-saga/effects';
 import request from '../../utils/request'
 import api from '../../services/index'
 import {message} from "antd";
-import GetRoutes from "../../router";
+import GetRoutes from "../../router/index1";
 
 import {GETMENU,GETMENU_ASYNC,ADDMENU_ASYNC,EDITMENU_ASYNC} from '../constants'
 
@@ -11,7 +11,8 @@ function* getMenu() {
     //此处编写异步请求
     try{
         const res = yield call(request.get,api.getMenu)
-        yield put({type: GETMENU,data:GetRoutes(res.data)});
+        const menu_list = GetRoutes(res.data)
+        yield put({type: GETMENU,data:menu_list});
     }catch (e) {
         console.log("异步请求出错")
         message.error("获取菜单失败！")

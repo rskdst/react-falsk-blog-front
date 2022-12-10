@@ -8,6 +8,7 @@ import {getMenuAsync} from "../store/actions/menu";
 const { Header, Content, Footer, Sider } = Layout;
 
 const L = (props) => {
+    console.log("@@@",props)
     const [collapsed, setCollapsed] = useState(false);
     const location = useLocation()
     const navigate = useNavigate()
@@ -15,11 +16,13 @@ const L = (props) => {
 
     // 请求菜单列表
     useEffect(()=>{
+
         props.getMenuAsync();//获取树形菜单列表
     },[])
 
     useEffect(() => {
         //刷新页面时获取展开菜单数组
+
         if (location.pathname !== "/") {
             setOpenKeys(getOpenKeys(location.pathname))
         }

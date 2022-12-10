@@ -1,5 +1,5 @@
 import React, {useEffect,useState,useMemo} from 'react';
-import { Space, Table, Button,Tree,Switch } from 'antd';
+import { Space, Table, Button,Tag,Switch } from 'antd';
 import './menu.css'
 import {connect} from "react-redux";
 import {getMenuAsync} from "../../store/actions/menu";
@@ -74,6 +74,29 @@ const Menu = (props) => {
             title: '组件地址',
             key: 'componentpath',
             dataIndex: 'componentpath',
+            align:"center",
+            width:'7rem',
+            onHeaderCell:() => ({style:{textAlign: 'center'}})
+        },
+        {
+            title: '类型',
+            key: 'permission',
+            dataIndex: 'type',
+            align:"center",
+            width:'7rem',
+            onHeaderCell:() => ({style:{textAlign: 'center'}}),
+            render: (text)=> {
+                return (
+                    text === "菜单" ? <Tag color="volcano">{text}</Tag>
+                        : <Tag color="lime">{text}</Tag>
+                )
+            }
+
+        },
+        {
+            title: '权限标记',
+            key: 'permission',
+            dataIndex: 'permission',
             align:"center",
             width:'7rem',
             onHeaderCell:() => ({style:{textAlign: 'center'}})

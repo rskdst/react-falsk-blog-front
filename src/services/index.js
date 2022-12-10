@@ -1,5 +1,5 @@
 /**
- * index.js
+ * index1.js
  * api地址管理
  */
 export default {

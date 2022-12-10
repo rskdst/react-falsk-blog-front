@@ -66,6 +66,7 @@ const columns = [
 ];
 
 function User(props) {
+    console.log("@@@@@@",props)
     const [dialogShow,setDialogShow] = useState({state:false}) // dialog显示
     const [record,setRecord] = useState({}) // dialog record数据
     console.log(props)

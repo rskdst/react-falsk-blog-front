@@ -4,7 +4,7 @@ import api from '../../services/index'
 import {message} from "antd";
 
 import {REGISTER, LOGIN, GETUSER, GETUSER_ASYNC} from '../constants'
-import GetRoutes from "../../router";
+import GetRoutes from "../../router/index1";
 
 //注册用户
 function* register({data}) {

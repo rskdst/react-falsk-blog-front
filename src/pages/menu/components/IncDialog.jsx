@@ -61,15 +61,17 @@ function IncDialog(props) {
         const icon = menu.icon===undefined?"":menu.icon
         const routepath = menu.routepath
         const componentpath = menu.componentpath===undefined?"":menu.componentpath
+        const type = menu.type===undefined?"":menu.type
+        const permission = menu.permission===undefined?"":menu.permission
         const weight = menu.weight
         const state = menu.state ? 1 : 0
         let data
         if (JSON.stringify(props.record) === "{}"){
-            data = {label,pid,pname,icon,routepath,componentpath,weight,state}
+            data = {label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
             props.addMenuAsync(data)
 
         }else {
-            data = {id:props.record.id,label,pid,pname,icon,routepath,componentpath,weight,state}
+            data = {id:props.record.id,label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
             props.editMenuAsync(data)
         }
 
@@ -108,6 +110,12 @@ function IncDialog(props) {
                     <Input />
                 </Form.Item>
                 <Form.Item name={['menu', 'componentpath']} label="组件地址" initialValue={props.record.componentpath} labelCol={{'span': 5, 'offset': 1}}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['menu', 'type']} label="类型" initialValue={props.record.type} labelCol={{'span': 5, 'offset': 1}}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['menu', 'permission']} label="权限标识" initialValue={props.record.permission} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
                 <Form.Item name={['menu', 'weight']} label="权重" initialValue={props.record.weight} rules={[{required:true }]} labelCol={{'span': 5, 'offset': 1}}>
