@@ -2,7 +2,7 @@ import React, {useEffect,useState,useMemo} from 'react';
 import { Space, Table, Button,Tag,Switch } from 'antd';
 import './menu.css'
 import {connect} from "react-redux";
-import {getMenuAsync} from "../../store/actions/menu";
+import {getMenuListAsync} from "../../store/actions/menu";
 import IncDialog from "./components/IncDialog";
 import Dialog from "../../components/layout/Dialog";
 import AuthButton from "../../components/Permissions/authButton";
@@ -12,25 +12,43 @@ import AuthButton from "../../components/Permissions/authButton";
 const Menu = (props) => {
     const [dialogShow,setDialogShow] = useState({state:false}) // dialog显示
     const [record,setRecord] = useState({}) // dialog record数据
+    const [operate,setOperate] = useState("") // dialog 标题
+
+    // 请求菜单列表
+    useEffect(()=>{
+
+        props.getMenuListAsync();//获取树形菜单列表
+    },[])
 
     const changeDialog = () => {
         setDialogShow({state:!dialogShow.state});
     }
     //添加菜单
     const addMenu = ()=>{
-        setRecord({})
+        setOperate("新增菜单")
         changeDialog()
     }
     //编辑菜单
     const editMenu = (record)=>{
         return () =>{
+            setOperate("编辑菜单")
             setRecord(record)
             changeDialog()
         }
     }
+
+    //编辑菜单
+    const copyMenu = (record)=>{
+        return () =>{
+            setOperate("新增菜单")
+            setRecord(record)
+            changeDialog()
+        }
+    }
+
     //刷新菜单
     const refresh = ()=>{
-        props.getMenuAsync()
+        props.getMenuListAsync()
     }
 
     const columns = [
@@ -38,8 +56,8 @@ const Menu = (props) => {
             title: '菜单名称',
             dataIndex: 'label',
             key: 'label',
-            width:'9rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}})
+            align:"center",
+            width:'8rem',
         },
         {
             title: '父级菜单',
@@ -47,15 +65,13 @@ const Menu = (props) => {
             dataIndex: 'pname',
             align:"center",
             width:'7rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}})
         },
         {
             title: '图标',
             dataIndex: 'icon',
             key: 'icon',
             align:"center",
-            width:'5rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}}),
+            width:'4rem',
             // onCell:(record, rowIndex)=>{
             //     record.icon = <div style={{textAlign:"center"}} dangerouslySetInnerHTML={{ __html: record.icon }} />
             //     // record.icon = <span style={{textAlign:"center"}} innerHTML={ record.icon} />
@@ -68,7 +84,6 @@ const Menu = (props) => {
             dataIndex: 'routepath',
             align:"center",
             width:'7rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}})
         },
         {
             title: '组件地址',
@@ -76,19 +91,19 @@ const Menu = (props) => {
             dataIndex: 'componentpath',
             align:"center",
             width:'7rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}})
         },
         {
             title: '类型',
             key: 'permission',
             dataIndex: 'type',
             align:"center",
-            width:'7rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}}),
+            width:'4rem',
             render: (text)=> {
                 return (
                     text === "菜单" ? <Tag color="volcano">{text}</Tag>
-                        : <Tag color="lime">{text}</Tag>
+                        : text === "目录" ? <Tag color="lime">{text}</Tag>
+                        : <Tag color="blue">{text}</Tag>
+                        
                 )
             }
 
@@ -99,7 +114,6 @@ const Menu = (props) => {
             dataIndex: 'permission',
             align:"center",
             width:'7rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}})
         },
         {
             title: '权重',
@@ -107,15 +121,13 @@ const Menu = (props) => {
             dataIndex: 'weight',
             align:"center",
             width:'5rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}})
         },
         {
             title: '启用',
             key: 'state',
             dataIndex: 'state',
             align:"center",
-            width:'5rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}}),
+            width:'4rem',
             render: (text)=>{
                 return <Switch defaultChecked={text==="1"}/>
             }
@@ -123,12 +135,14 @@ const Menu = (props) => {
         {
             title: '编辑',
             key: 'action',
-            width:'5rem',
-            onHeaderCell:() => ({style:{textAlign: 'center'}}),
+            width:'4rem',
+            align:"center",
+            onHeaderCell:() => ({style:{textAlign: 'left'}}),
             render: (_, record) => (
                 <Space size="middle">
-                    <a key={1} onClick={editMenu(record)}>编辑</a>
-                    <a key={2}>删除</a>
+                    <Button type='link' onClick={editMenu(record)} key={1}>编辑</Button>
+                    <Button type='link' onClick={copyMenu(record)} key={2}>复制</Button>
+                    <Button  type='link' key={3}>删除</Button>
                 </Space>
 
             ),
@@ -136,18 +150,17 @@ const Menu = (props) => {
     ];
     return (
         <>
-            {dialogShow.state && <Dialog ><IncDialog onClose={changeDialog} record={record}/></Dialog>}
+            {dialogShow.state && <Dialog ><IncDialog onClose={changeDialog} record={record} operate={operate}/></Dialog>}
             <h1>菜单管理</h1>
             <div className="menuEdit">
                 <div className="menuEdit-left">
                     <Button type='primary' onClick={addMenu}>+新增</Button>
-                    <AuthButton name="menu_delete">删除</AuthButton>
                 </div>
                 <div className="menuEdit-right">
                     <Button onClick={refresh}>刷新</Button>
                 </div>
             </div>
-            <Table columns={columns} dataSource={props.menu} rowKey={record => record.id} bordered defaultExpandAllRows/>
+            {props.menu_list.length>0 && <Table columns={columns} dataSource={props.menu_list} rowKey={record => record.id} bordered defaultExpandAllRows/>}
 
 
         </>
@@ -156,9 +169,9 @@ const Menu = (props) => {
 
 export default connect(
     state =>({
-        menu:state.menu
+        menu_list:state.menu_list
     }),
     {
-        getMenuAsync
+        getMenuListAsync
     }
 )(Menu);

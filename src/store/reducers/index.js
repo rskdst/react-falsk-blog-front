@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
-import {menu} from './menu';
+import {menu,menu_list} from './menu';
 import {user} from './user';
+import {role} from './role'
 
 export default combineReducers({
     menu,
-    user
+    menu_list,
+    user,
+    role
 })

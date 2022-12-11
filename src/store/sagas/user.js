@@ -3,8 +3,7 @@ import request from '../../utils/request'
 import api from '../../services/index'
 import {message} from "antd";
 
-import {REGISTER, LOGIN, GETUSER, GETUSER_ASYNC} from '../constants'
-import GetRoutes from "../../router/index1";
+import {REGISTER, LOGIN, GETUSER, GETUSER_ASYNC,ADDUSERROLE_ASYNC} from '../constants'
 
 //注册用户
 function* register({data}) {
@@ -56,9 +55,23 @@ function* getUser({data}) {
     }
 }
 
+//为用户分配权限
+function* adduserRole({data}) {
+    //此处编写异步请求
+    try{
+        yield call(request.post,api.adduserRole,data)
+        message.success("添加成功！")
+    }catch (e) {
+        console.log("添加出错")
+        message.error("添加失败！")
+    }
+}
+
 // 监听异步自增事件
 export function* takeUser() {
     yield takeEvery(REGISTER, register);
     yield takeEvery(LOGIN, login);
     yield takeEvery(GETUSER_ASYNC, getUser);
+    yield takeEvery(ADDUSERROLE_ASYNC, adduserRole);
+
 }

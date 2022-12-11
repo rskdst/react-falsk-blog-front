@@ -1,75 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import 'dayjs/locale/zh-cn';
-import {Button, Form, Input,Select,DatePicker,Space, Table, Tag} from "antd";
+import {Button, Form, Input,Select,DatePicker,Space, Table, Switch} from "antd";
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import {connect} from "react-redux";
 import {getUser} from "../../store/actions/user";
 
 import '../container.css'
 import Dialog from "../../components/layout/Dialog";
-import IncDialog from "../user/components/IncDialog";
+import Permission from './components/permissionDialog';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
-const columns = [
-    {
-        title: '用户名',
-        dataIndex: 'username',
-        key: 'username',
-    },
-    {
-        title: '手机号',
-        dataIndex: 'phone',
-        key: 'phone',
-    },
-    {
-        title: '邮箱',
-        dataIndex: 'email',
-        key: 'email',
-    },
-    {
-        title: '身份证号',
-        dataIndex: 'id_card',
-        key: 'id_card',
-    },
-    {
-        title: '创建时间',
-        dataIndex: 'create_date',
-        key: 'create_date',
-    },
-    {
-        title: '更新时间',
-        dataIndex: 'update_date',
-        key: 'create_date',
-    },
-    {
-        title: '状态',
-        dataIndex: 'state',
-        key: 'state',
-    },
-    {
-        title: '所属角色',
-        dataIndex: 'rolename',
-        key: 'rolename',
-    },
-    {
-        title: '操作',
-        key: 'action',
-        render: (_, record) => (
-            <Space size="middle">
-                <a>Invite {record.name}</a>
-                <a>Delete</a>
-            </Space>
-        ),
-    },
-];
 
 function User(props) {
-    console.log("@@@@@@",props)
+    console.log(props)
     const [dialogShow,setDialogShow] = useState({state:false}) // dialog显示
     const [record,setRecord] = useState({}) // dialog record数据
-    console.log(props)
+    const [operate,setOperate] = useState("") // dialog 标题
+    const [userid,setUserid] = useState() // dialog 人员id
     //请求用户数据
     useEffect(()=>{
         if (props.user.length===0){
@@ -81,21 +30,113 @@ function User(props) {
     const changeDialog = () => {
         setDialogShow({state:!dialogShow.state});
     }
-    //添加菜单
+
+    //新增人员
     const addUser = ()=>{
-        setRecord({})
+        setOperate("新增人员")
         changeDialog()
+    }
+
+    //添加菜单
+    const distriPermission = (record)=>{
+        return ()=>{
+            setUserid(record.id)
+            setOperate("权限分配")
+            changeDialog()
+        }
     }
 
     const onFinish = (values) => {
         console.log('Finish:', values);
     };
 
+    const columns = [
+        {
+            title: '用户名',
+            dataIndex: 'username',
+            key: 'username',
+            align:"center",
+            width:'8rem',
+        },
+        {
+            title: '手机号',
+            dataIndex: 'phone',
+            key: 'phone',
+            align:"center",
+            width:'10rem',
+        },
+        {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email',
+            align:"center",
+            width:'12rem',
+        },
+        {
+            title: '身份证号',
+            dataIndex: 'id_card',
+            key: 'id_card',
+            align:"center",
+            width:'12rem',
+        },
+        {
+            title: '创建时间',
+            dataIndex: 'create_date',
+            key: 'create_date',
+            align:"center",
+            width:'12rem',
+        },
+        {
+            title: '更新时间',
+            dataIndex: 'update_date',
+            key: 'create_date',
+            align:"center",
+            width:'12rem',
+        },
+        {
+            title: '状态',
+            dataIndex: 'state',
+            key: 'state',
+            align:"center",
+            width:'5rem',
+            render: (text)=>{
+                return <Switch defaultChecked={text==1}/>
+            }
+        },
+        {
+            title: '所属角色',
+            dataIndex: 'rolename',
+            key: 'rolename',
+            align:"center",
+            width:'8rem',
+        },
+        {
+            title: '操作',
+            key: 'action',
+            align:"center",
+            render: (_, record) => (
+                <Space size="middle">
+                    <Button type='link' key={1}>编辑</Button>
+                    <Button type='link' onClick={distriPermission(record)} key={2}>权限分配</Button>
+                    <Button type='link' key={3}>删除</Button>
+                </Space>
+            ),
+        },
+    ];
     return (
         <div className="content-main">
-            {dialogShow.state && <Dialog ><IncDialog onClose={changeDialog} record={record}/></Dialog>}
+            {dialogShow.state && <Dialog ><Permission onClose={changeDialog} record={record} user_id={userid} operate={operate}/></Dialog>}
             <div className="content-search">
-                <Form name="horizontal_login" layout="inline" onFinish={onFinish}>
+                <Form name="horizontal_login"
+                    layout="inline"
+                    initialValues={{
+                        username:"",
+                        role:"",
+                        phone:"",
+                        state:"",
+                        
+                    }}
+                    onFinish={onFinish}>
                     <Form.Item
                         label="用户名"
                         name="username"
@@ -118,7 +159,7 @@ function User(props) {
                         label="状态"
                         name="state"
                     >
-                        <Select defaultValue="1">
+                        <Select style={{ width: "5rem" }}>
                             <Option value="1">正常</Option>
                             <Option value="2">注销</Option>
                         </Select>
@@ -140,7 +181,7 @@ function User(props) {
                 <Button type="primary" onClick={addUser}>新增</Button>
             </div>
             <div className="content-table">
-                <Table columns={columns} dataSource={props.user} rowKey={record => record.id} bordered defaultExpandAllRows/>;
+                <Table columns={columns} dataSource={props.user} rowKey={record => record.id} bordered defaultExpandAllRows/>
             </div>
         </div>
     );

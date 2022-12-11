@@ -8,7 +8,6 @@ import {getMenuAsync} from "../store/actions/menu";
 const { Header, Content, Footer, Sider } = Layout;
 
 const L = (props) => {
-    console.log("@@@",props)
     const [collapsed, setCollapsed] = useState(false);
     const location = useLocation()
     const navigate = useNavigate()

@@ -1,4 +1,4 @@
-import {GETMENU_ASYNC,ADDMENU_ASYNC,EDITMENU_ASYNC} from '../constants'
+import {GETMENU_ASYNC,ADDMENU_ASYNC,EDITMENU_ASYNC,GETMENULIST_ASYNC} from '../constants'
 // 异步自增（等待1秒才触发自增action）
 export const getMenuAsync = () => {
     return {
@@ -20,3 +20,9 @@ export const editMenuAsync = (data) => {
     }
 }
 
+
+export const getMenuListAsync = ()=>{
+    return {
+        type:GETMENULIST_ASYNC
+    }
+}

@@ -32,20 +32,6 @@ function IncDialog(props) {
 
     })
 
-    //图标上传限定数量
-    const handleChangeIcon = (info) =>{
-        let newFileList = [...info.fileList];
-        newFileList = newFileList.slice(-1);
-        newFileList = newFileList.map((file) => {
-            if (file.response) {
-                file.url = file.response.url;
-            }
-            return file;
-        });
-
-        setFileList(newFileList);
-    }
-
     //获取父级菜单信息
     const handleChangePid = () => {
 
@@ -59,19 +45,17 @@ function IncDialog(props) {
         const pid = form.getFieldValue("parent")===undefined?0:form.getFieldValue("parent")
         const pname = menu.parent===undefined?"":menu.parent
         const icon = menu.icon===undefined?"":menu.icon
-        const routepath = menu.routepath
-        const componentpath = menu.componentpath===undefined?"":menu.componentpath
-        const type = menu.type===undefined?"":menu.type
-        const permission = menu.permission===undefined?"":menu.permission
+        const routePath = menu.routePath
+        const componentPath = menu.componentPath===undefined?"":menu.componentPath
         const weight = menu.weight
         const state = menu.state ? 1 : 0
         let data
         if (JSON.stringify(props.record) === "{}"){
-            data = {label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
+            data = {label,pid,pname,icon,routePath,componentPath,weight,state}
             props.addMenuAsync(data)
 
         }else {
-            data = {id:props.record.id,label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
+            data = {id:props.record.id,label,pid,pname,icon,routePath,componentPath,weight,state}
             props.editMenuAsync(data)
         }
 
@@ -86,7 +70,7 @@ function IncDialog(props) {
     }
     return (
         <div className="main">
-            <Tip tipName={JSON.stringify(props.record) === "{}"?"新增菜单":"编辑菜单"}/>
+            <Tip tipName={props.operate}/>
             <Form {...layout} name="nest-messages" onFinish={onSubmit} validateMessages={validateMessages} style={{padding:'10px 2rem'}} form={form}>
                 <Form.Item name={['menu', 'label']} label="菜单名称" initialValue={props.record.label} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input/>
@@ -106,16 +90,10 @@ function IncDialog(props) {
                 <Form.Item name={['menu', 'icon']} label="图标" initialValue={props.record.iconname} labelCol={{'span': 4, 'offset': 2}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'routepath']} label="路由地址" initialValue={props.record.routepath} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'routePath']} label="路由地址" initialValue={props.record.routePath} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'componentpath']} label="组件地址" initialValue={props.record.componentpath} labelCol={{'span': 5, 'offset': 1}}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name={['menu', 'type']} label="类型" initialValue={props.record.type} labelCol={{'span': 5, 'offset': 1}}>
-                    <Input />
-                </Form.Item>
-                <Form.Item name={['menu', 'permission']} label="权限标识" initialValue={props.record.permission} labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'componentPath']} label="组件地址" initialValue={props.record.componentPath} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
                 <Form.Item name={['menu', 'weight']} label="权重" initialValue={props.record.weight} rules={[{required:true }]} labelCol={{'span': 5, 'offset': 1}}>

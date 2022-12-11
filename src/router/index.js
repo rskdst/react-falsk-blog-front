@@ -4,14 +4,13 @@ import {useRoutes} from 'react-router-dom'
 import * as Icon from '@ant-design/icons'
 import React from "react";
 export default function GetRoutes(routes) {
-    console.log(routes)
     function bindRouter(routes) {
         routes.map((item)=>{
             const Component = loadable(() => {
                 return import("../"+item.componentpath)
             })
             if (item.children){
-                item.iconname=item.icon
+                item.iconname=item.icon.slice()
                 if (typeof(item.icon)=='string'){
                     item.icon = React.createElement(Icon[item.icon])
                 }
@@ -20,7 +19,7 @@ export default function GetRoutes(routes) {
 
                 item.children = [...bindRouter(item.children)]
             }else {
-                item.iconname=item.icon
+                item.iconname=item.icon.slice()
                 if (typeof(item.icon)=='string'){
                     item.icon = React.createElement(Icon[item.icon])
                 }

@@ -1,5 +1,5 @@
 
-import {REGISTER,LOGIN,GETUSER_ASYNC} from '../constants'
+import {REGISTER,LOGIN,GETUSER_ASYNC,ADDUSERROLE_ASYNC} from '../constants'
 
 export const register = (data)=>{
     return {
@@ -19,5 +19,11 @@ export const login = (data)=>{
 export const getUser = ()=>{
     return {
         type:GETUSER_ASYNC
+    }
+}
+export const adduserRoleAsync = (data) => {
+    return {
+        type: ADDUSERROLE_ASYNC,
+        data
     }
 }

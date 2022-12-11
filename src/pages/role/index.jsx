@@ -14,7 +14,15 @@ function Role(props) {
     return (
         <div className="content-main">
             <div className="content-search">
-                <Form name="horizontal_login" layout="inline" onFinish={onFinish}>
+                <Form name="horizontal_login"
+                    layout="inline"
+                    initialValues={{
+                        username:"",
+                        role:"",
+                        phone:"",
+                        state:"2"
+                    }}
+                    onFinish={onFinish}>
                     <Form.Item
                         label="用户名"
                         name="username"
@@ -37,7 +45,7 @@ function Role(props) {
                         label="状态"
                         name="state"
                     >
-                        <Select defaultValue="1">
+                        <Select>
                             <Option value="1">正常</Option>
                             <Option value="2">注销</Option>
                         </Select>
