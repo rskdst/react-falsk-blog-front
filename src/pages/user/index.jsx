@@ -7,7 +7,7 @@ import {getUser} from "../../store/actions/user";
 
 import '../container.css'
 import Dialog from "../../components/layout/Dialog";
-import Permission from './components/permissionDialog';
+import RoleDialog from './components/roleDialog';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -37,11 +37,11 @@ function User(props) {
         changeDialog()
     }
 
-    //添加菜单
-    const distriPermission = (record)=>{
+    //角色分配
+    const distriRole= (record)=>{
         return ()=>{
             setUserid(record.id)
-            setOperate("权限分配")
+            setOperate("角色分配")
             changeDialog()
         }
     }
@@ -117,7 +117,7 @@ function User(props) {
             render: (_, record) => (
                 <Space size="middle">
                     <Button type='link' key={1}>编辑</Button>
-                    <Button type='link' onClick={distriPermission(record)} key={2}>权限分配</Button>
+                    <Button type='link' onClick={distriRole(record)} key={2}>角色分配</Button>
                     <Button type='link' key={3}>删除</Button>
                 </Space>
             ),
@@ -125,7 +125,7 @@ function User(props) {
     ];
     return (
         <div className="content-main">
-            {dialogShow.state && <Dialog ><Permission onClose={changeDialog} record={record} user_id={userid} operate={operate}/></Dialog>}
+            {dialogShow.state && <Dialog ><RoleDialog onClose={changeDialog} record={record} user_id={userid} operate={operate}/></Dialog>}
             <div className="content-search">
                 <Form name="horizontal_login"
                     layout="inline"

@@ -18,7 +18,7 @@ const validateMessages = {
     required: '请填写 ${label}！'
 };
 
-function Permission(props) {
+function RoleDialog(props) {
     const [form] = Form.useForm();
 
     useEffect(()=>{
@@ -42,7 +42,7 @@ function Permission(props) {
     }
     
     return (
-        <div className="permission-main">
+        <div className="role-main">
             <Tip tipName={props.operate}/>
             <Form {...layout} name="nest-messages" 
                 onFinish={onSubmit}
@@ -91,4 +91,4 @@ export default connect(
         adduserRoleAsync
 
     }
-)(Permission);
+)(RoleDialog);

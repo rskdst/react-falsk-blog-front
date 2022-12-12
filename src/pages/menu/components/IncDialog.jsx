@@ -69,7 +69,7 @@ function IncDialog(props) {
         })
     }
     return (
-        <div className="main">
+        <div className="inc-dialog-main">
             <Tip tipName={props.operate}/>
             <Form {...layout} name="nest-messages" onFinish={onSubmit} validateMessages={validateMessages} style={{padding:'10px 2rem'}} form={form}>
                 <Form.Item name={['menu', 'label']} label="菜单名称" initialValue={props.record.label} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>

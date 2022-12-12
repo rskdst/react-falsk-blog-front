@@ -1,4 +1,3 @@
-import React from "react";
 import {GETMENU,GETMENU_LIST} from '../constants'
 
 

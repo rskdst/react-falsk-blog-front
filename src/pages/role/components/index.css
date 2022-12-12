@@ -1,0 +1,19 @@
+.permission-dialog-main {
+    width: 30rem;
+    position: absolute;
+    border: 2px solid rgba(5, 5, 5, 0.06);
+    background: #ffffff;
+    left: 50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    z-index: 12
+
+}
+.permission-tree {
+    padding: 0 8rem;
+}
+.permission-operate {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
