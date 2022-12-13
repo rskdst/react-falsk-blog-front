@@ -5,7 +5,7 @@
 export default {
     //菜单
     getMenu:'/menu/menu',
-    getMenuList:'/menu/menu_list',
+    getMenuList:'/menu/menuList',
     setMenu:"/menu/addMenu",
     editMenu:"/menu/editMenu",
 
@@ -17,6 +17,7 @@ export default {
 
     //角色
     getRole:"/role/role",
+    addRoleMenu:"/role/addMenuPermission"
     
 
 }

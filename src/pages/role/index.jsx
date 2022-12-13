@@ -25,6 +25,7 @@ function Role(props) {
     const distriPermission= (record)=>{
         return ()=>{
             setOperate("权限分配")
+            setRecord(record)
             changeDialog()
         }
     }

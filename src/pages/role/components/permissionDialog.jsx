@@ -4,6 +4,7 @@ import "./index.css"
 import { Tree,Button } from 'antd';
 import {connect} from 'react-redux';
 import {getMenuListAsync} from '../../../store/actions/menu'
+import { addRoleMenuAsync } from '../../../store/actions/role';
 
 function PermissionDialog(props) {
     // const [expandedKeys, setExpandedKeys] = useState([]);
@@ -36,6 +37,12 @@ function PermissionDialog(props) {
     // };
 
     const onSubmit = () =>{
+        const role_id = props.record.id;
+        const formData = new FormData();
+        formData.append("role_id",role_id)
+        formData.append("menu_ids",allCheckedKeys)
+        
+        props.addRoleMenuAsync(formData)
         console.log(allCheckedKeys)
 
     }
@@ -79,6 +86,7 @@ export default connect(
         menu_list:state.menu_list
     }),
     {
-        getMenuListAsync
+        getMenuListAsync,
+        addRoleMenuAsync
     }
 )(PermissionDialog);
