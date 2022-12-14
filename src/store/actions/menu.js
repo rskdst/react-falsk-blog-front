@@ -20,9 +20,3 @@ export const editMenuAsync = (data) => {
     }
 }
 
-
-export const getMenuListAsync = ()=>{
-    return {
-        type:GETMENULIST_ASYNC
-    }
-}

@@ -4,27 +4,20 @@ import api from '../../services/index'
 import {message} from "antd";
 import GetRoutes from "../../router/index";
 
-import {GETMENU,GETMENU_ASYNC,ADDMENU_ASYNC,EDITMENU_ASYNC,GETMENU_LIST,GETMENULIST_ASYNC} from '../constants'
+import {GETMENU,GETMENU_ASYNC,ADDMENU_ASYNC,EDITMENU_ASYNC,GETMENU_LIST} from '../constants'
+
+
 
 //获取菜单
 function* getMenu() {
     //此处编写异步请求
     try{
         const res = yield call(request.get,api.getMenu)
-        const menu_list = GetRoutes(res.data)
-        yield put({type: GETMENU,data:menu_list});
-    }catch (e) {
-        console.log("异步请求出错")
-        message.error("获取菜单失败！")
-    }
-}
-
-//获取完整菜单
-function* getMenuList() {
-    //此处编写异步请求
-    try{
-        const res = yield call(request.get,api.getMenuList)
-        yield put({type: GETMENU_LIST,data:res.data});
+        // const menus = res.data
+        // yield put({type: GETMENU_LIST,data:menus});
+        const {menus,routes} = GetRoutes(res.data)
+        yield put({type: GETMENU,data:routes});
+        yield put({type: GETMENU_LIST,data:menus});
     }catch (e) {
         console.log("异步请求出错")
         message.error("获取菜单失败！")
@@ -59,7 +52,6 @@ function* editMenu({data}) {
 // 监听异步自增事件
 export function* takeMenu() {
     yield takeEvery(GETMENU_ASYNC, getMenu);
-    yield takeEvery(GETMENULIST_ASYNC,getMenuList);
     yield takeEvery(ADDMENU_ASYNC, addMenu);
     yield takeEvery(EDITMENU_ASYNC, editMenu);
 }

@@ -1,34 +1,42 @@
 import loadable from "@loadable/component";
 import {useRoutes} from 'react-router-dom'
-
+import { deepClone } from "../utils/common";
 import * as Icon from '@ant-design/icons'
 import React from "react";
-export default function GetRoutes(routes) {
+import menu from "../pages/menu";
+export default function GetRoutes(menus) {
     function bindRouter(routes) {
-        routes.map((item)=>{
+        for (let i=0;i<routes.length;i++){
             const Component = loadable(() => {
-                return import("../"+item.componentpath)
+                return import("../"+routes[i].componentpath)
             })
-            if (item.children){
-                item.iconname=item.icon.slice()
-                if (typeof(item.icon)=='string'){
-                    item.icon = React.createElement(Icon[item.icon])
+            if (routes[i].children){
+                
+                routes[i].iconname=routes[i].icon.slice()
+                if (typeof(routes[i].icon)=='string'){
+                    routes[i].icon = React.createElement(Icon[routes[i].icon])
                 }
-                item.path = item.routepath
-                item.key = item.routepath
-
-                item.children = [...bindRouter(item.children)]
+                routes[i].path = routes[i].routepath
+                routes[i].key = routes[i].routepath
+                
+                routes[i].children = [...bindRouter(routes[i].children)]
+                if (routes[i].children[0].type === "按钮") {
+                    routes[i].element=<Component />
+                    delete routes[i].children
+                    continue
+                }
             }else {
-                item.iconname=item.icon.slice()
-                if (typeof(item.icon)=='string'){
-                    item.icon = React.createElement(Icon[item.icon])
+                routes[i].iconname=routes[i].icon.slice()
+                if (typeof(routes[i].icon)=='string'){
+                    routes[i].icon = React.createElement(Icon[routes[i].icon])
                 }
-                item.path = item.routepath
-                item.key = item.routepath
+                routes[i].path = routes[i].routepath
+                routes[i].key = routes[i].routepath
 
-                item.element=<Component />
+                routes[i].element=<Component />
             }
-        })
+            
+        }
         return routes
 
     }
@@ -77,6 +85,27 @@ export default function GetRoutes(routes) {
     //     }
     //
     // ]
-    return bindRouter(routes)
+    // let routes = []
+    // function filterRoutes(menus) {
+    //     for (let i = 0;i<menus.length;i++){
+
+    //         routes.push(menus[i])
+    //         if (menus[i].children && menus[i].children[0].type === "按钮"){
+    //             delete menus[i].children
+    //             continue
+    //         }
+    //         if (menus[i].children){
+                
+    //         }
+
+
+    //     }
+    // }
+    // for (let m = 0;m<menus.length;m++) {
+        
+    // } 
+    // let [...routes] = menus
+    let routes = deepClone(menus)
+    return {menus,routes:bindRouter(routes)}
 
 }

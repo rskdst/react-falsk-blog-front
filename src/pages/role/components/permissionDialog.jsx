@@ -3,7 +3,6 @@ import Tip from "../../../components/layout/Tip";
 import "./index.css"
 import { Tree,Button } from 'antd';
 import {connect} from 'react-redux';
-import {getMenuListAsync} from '../../../store/actions/menu'
 import { addRoleMenuAsync } from '../../../store/actions/role';
 
 function PermissionDialog(props) {
@@ -13,9 +12,6 @@ function PermissionDialog(props) {
     // const [selectedKeys, setSelectedKeys] = useState([]);
     // const [autoExpandParent, setAutoExpandParent] = useState(true);
 
-    useEffect(()=>{
-        props.getMenuListAsync()
-    },[])
 
     // const onExpand = (expandedKeysValue) => {
     //     console.log('onExpand', expandedKeysValue);
@@ -86,7 +82,6 @@ export default connect(
         menu_list:state.menu_list
     }),
     {
-        getMenuListAsync,
         addRoleMenuAsync
     }
 )(PermissionDialog);

@@ -45,3 +45,29 @@ export const existValue = (treedata,root,value)=>{
     
     return flag
 }
+
+//数组的深copy
+export function deepClone(obj) {
+    //判断传进来的参数类型不是对象数组 或者是null时 直接返回
+    if (typeof obj !== "object" || obj == null) {
+      return obj
+    }
+    //定义返回值
+    let result;
+    // 判断传进来的数据类型 是数组/对象 就给result一个数组/对象
+    if (obj instanceof Array) {
+      result = []
+    } else {
+      result = {}
+    }
+    //循环遍历方便拷贝
+    for (let key in obj) {
+      //判读自有属性
+      if (obj.hasOwnProperty(key)) {
+        //函数递归实现深层拷贝
+        result[key] = deepClone(obj[key])
+      }
+    }
+    //返回出去
+    return result
+  }

@@ -133,7 +133,7 @@ function User(props) {
                         username:"",
                         role:"",
                         phone:"",
-                        state:"",
+                        state:"1",
                         
                     }}
                     onFinish={onFinish}>
@@ -160,8 +160,9 @@ function User(props) {
                         name="state"
                     >
                         <Select style={{ width: "5rem" }}>
-                            <Option value="1">正常</Option>
-                            <Option value="2">注销</Option>
+                            <Option value="1">不限</Option>
+                            <Option value="2">正常</Option>
+                            <Option value="3">注销</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item name="create_date" label="创建时间">

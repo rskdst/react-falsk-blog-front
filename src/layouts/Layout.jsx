@@ -15,8 +15,7 @@ const L = (props) => {
 
     // 请求菜单列表
     useEffect(()=>{
-
-        props.getMenuAsync();//获取树形菜单列表
+        props.getMenuAsync();//获取菜单列表
     },[])
 
     useEffect(() => {

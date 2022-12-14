@@ -2,7 +2,6 @@ import React, {useEffect,useState,useMemo} from 'react';
 import { Space, Table, Button,Tag,Switch } from 'antd';
 import './menu.css'
 import {connect} from "react-redux";
-import {getMenuListAsync} from "../../store/actions/menu";
 import IncDialog from "./components/IncDialog";
 import Dialog from "../../components/layout/Dialog";
 import AuthButton from "../../components/Permissions/authButton";
@@ -13,12 +12,6 @@ const Menu = (props) => {
     const [dialogShow,setDialogShow] = useState({state:false}) // dialog显示
     const [record,setRecord] = useState({}) // dialog record数据
     const [operate,setOperate] = useState("") // dialog 标题
-
-    // 请求菜单列表
-    useEffect(()=>{
-
-        props.getMenuListAsync();//获取树形菜单列表
-    },[])
 
     const changeDialog = () => {
         setDialogShow({state:!dialogShow.state});
@@ -172,6 +165,6 @@ export default connect(
         menu_list:state.menu_list
     }),
     {
-        getMenuListAsync
+
     }
 )(Menu);
