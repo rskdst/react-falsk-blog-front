@@ -51,8 +51,8 @@ function request(url,params,headers,options={loading:true,mock:false,error:true}
     })
 }
 // 封装GET请求
-function get(url,params,options){
-    return request(url,params,options,'get')
+function get(url,params,headers,options){
+    return request(url,params,headers,options,'get')
 }
 // 封装POST请求
 function post(url,params,headers,options){

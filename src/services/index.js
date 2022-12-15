@@ -16,6 +16,7 @@ export default {
 
     //角色
     getRole:"/role/role",
+    getRoleList:"/role/roleList",
     addRoleMenu:"/role/addMenuPermission"
     
 

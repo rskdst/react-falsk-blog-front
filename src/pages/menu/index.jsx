@@ -148,6 +148,7 @@ const Menu = (props) => {
             <div className="menuEdit">
                 <div className="menuEdit-left">
                     <Button type='primary' onClick={addMenu}>+新增</Button>
+                    <AuthButton type='text' name='menu:delete' root='权限管理'>删除</AuthButton>
                 </div>
                 <div className="menuEdit-right">
                     <Button onClick={refresh}>刷新</Button>
