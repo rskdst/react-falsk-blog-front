@@ -49,6 +49,8 @@ function PermissionDialog(props) {
                 {props.role_list.length>0 && <Tree
                     checkable
                     showLine
+                    height="20rem"
+                    style={{minHeight:"15rem"}}
                     defaultCheckedKeys={[...new Set(requestList(props.menu_list))].filter((item) =>
                         new Set(props.role_list).has(item)
                       )}
