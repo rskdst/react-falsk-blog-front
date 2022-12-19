@@ -43,19 +43,21 @@ function IncDialog(props) {
 
         const label = menu.label
         const pid = form.getFieldValue("parent")===undefined?0:form.getFieldValue("parent")
-        const pname = menu.parent===undefined?"":menu.parent
-        const icon = menu.icon===undefined?"":menu.icon
+        const pname = menu.parent===null?"":menu.parent
+        const icon = menu.icon
         const routepath = menu.routepath
-        const componentpath = menu.componentpath===undefined?"":menu.componentpath
+        const componentpath = menu.componentpath
+        const type = menu.type
+        const permission = menu.permission
         const weight = menu.weight
         const state = menu.state ? 1 : 0
         let data
-        if (JSON.stringify(props.record) === "{}"){
-            data = {label,pid,pname,icon,routepath,componentpath,weight,state}
+        if (props.operate === "新增菜单"){
+            data = {label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
             props.addMenuAsync(data)
 
         }else {
-            data = {id:props.record.id,label,pid,pname,icon,routepath,componentpath,weight,state}
+            data = {id:props.record.id,label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
             props.editMenuAsync(data)
         }
 
@@ -75,7 +77,7 @@ function IncDialog(props) {
                 <Form.Item name={['menu', 'label']} label="菜单名称" initialValue={props.record.label} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input/>
                 </Form.Item>
-                <Form.Item name={['menu', 'parent']} label="父级菜单" initialValue={props.record.pname}  labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'parent']} label="父级菜单" initialValue={props.record.pname || ""}  labelCol={{'span': 5, 'offset': 1}}>
                     <TreeSelect
                         treeDataSimpleMode
                         height={500}
@@ -87,16 +89,22 @@ function IncDialog(props) {
                     />
                     {/*<Input />*/}
                 </Form.Item>
-                <Form.Item name={['menu', 'icon']} label="图标" initialValue={props.record.icon} labelCol={{'span': 4, 'offset': 2}}>
+                <Form.Item name={['menu', 'icon']} label="图标" initialValue={props.record.icon || ""} labelCol={{'span': 4, 'offset': 2}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'routepath']} label="路由地址" initialValue={props.record.routepath} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'routepath']} label="路由地址" initialValue={props.record.routepath || ""} rules={[{ type: 'string',required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'componentpath']} label="组件地址" initialValue={props.record.componentpath} labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'componentpath']} label="组件地址" initialValue={props.record.componentpath || ""} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'weight']} label="权重" initialValue={props.record.weight} rules={[{required:true }]} labelCol={{'span': 5, 'offset': 1}}>
+                <Form.Item name={['menu', 'type']} label="类型" initialValue={props.record.type || ""} labelCol={{'span': 5, 'offset': 1}}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['menu', 'permission']} label="权限标记" initialValue={props.record.permission || ""} labelCol={{'span': 5, 'offset': 1}}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name={['menu', 'weight']} label="权重" initialValue={props.record.weight || ""} rules={[{required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
                 <Form.Item name={['menu', 'state']} label="启用" valuePropName={props.record.state==="1"?"checked":"unchecked"} initialValue={props.record.state||"1"} labelCol={{'span': 4, 'offset': 2}}>

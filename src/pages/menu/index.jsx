@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import IncDialog from "./components/IncDialog";
 import Dialog from "../../components/layout/Dialog";
 import AuthButton from "../../components/Permissions/authButton";
-
+import { getMenuAsync } from '../../store/actions/menu';
 
 
 const Menu = (props) => {
@@ -41,7 +41,7 @@ const Menu = (props) => {
 
     //刷新菜单
     const refresh = ()=>{
-        props.getMenuListAsync()
+        props.getMenuAsync()
     }
 
     const columns = [
@@ -166,6 +166,6 @@ export default connect(
         menu_list:state.menu_list
     }),
     {
-
+        getMenuAsync
     }
 )(Menu);
