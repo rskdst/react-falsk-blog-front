@@ -17,6 +17,7 @@
 }
 .form-tag-box-abstract {
     display: flex;
+    height: 7rem;
 }
 .tag-list {
     display: inline-block;

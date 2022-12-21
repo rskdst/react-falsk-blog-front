@@ -1,7 +1,7 @@
 import React,{useEffect,useState,forwardRef, useImperativeHandle } from 'react';
 import {createPortal} from "react-dom";
 import "./index.css"
-import {Radio,Form,Input,message, Upload,Modal,Popover,Button,Checkbox, Col, Row,Tag} from 'antd'
+import {Radio,Form,Input,message, Upload,Modal,Popover,Button,Checkbox, notification, Row,Tag} from 'antd'
 import { LoadingOutlined, PlusOutlined,CloseOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 const { CheckableTag } = Tag;
@@ -71,11 +71,13 @@ const tagOptions = [
         value: '3',
       }
   ];
-const getBase64 = (img, callback) => {
+  const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-};
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
@@ -95,11 +97,14 @@ const UploadDialog = forwardRef(({}, ref) => {
 
     const [loading, setLoading] = useState(false);
     const [fileList, setFileList] = useState([])
-    const [previewVisible,setPreviewVisible] = useState(false)
-    const [previewImage,setPreviewImage] = useState("")
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
 
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategorys, setselectedCategorys] = useState([]);
+
+    const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         document.body.appendChild(node)
@@ -116,27 +121,22 @@ const UploadDialog = forwardRef(({}, ref) => {
         console.log(formData)
     }
 
-    const handleChange = (info) => {
-      console.log(info)
-      setFileList(info.fileList)
-        // if (info.file.status === 'uploading') {
-        //   setLoading(true);
-        //   return;
-        // }
-        // if (info.file.status === 'done') {
-        //   // Get this url from response in real world.
-        //   getBase64(info.file.originFileObj, (url) => {
-        //     setLoading(false);
-        //     setImageUrl(url);
-        //   });
-        // }
-      };
-    const handlePreview = (file) => {
-        setPreviewImage(file.thumbUrl)
-        setPreviewVisible(true)
-      };
-      const uploadButton = (
+    const handleCancel = () => setPreviewOpen(false);
+    const handlePreview = async (file) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+      }
+      setPreviewImage(file.url || file.preview);
+      setPreviewOpen(true);
+      setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+    };
+    const handleChange = ({ fileList: newFileList }) => {
+      setFileList(newFileList)
+      
+    };
+    const uploadButton = (
         <div>
+          
           {loading ? <LoadingOutlined /> : <PlusOutlined />}
           <div
             style={{
@@ -194,9 +194,22 @@ const UploadDialog = forwardRef(({}, ref) => {
                     <span style={{fontSize:"12px",color:"#999",position:"absolute",bottom:"0",right:"0"}}>还可添加3个标签</span>
                 </div>
     }
-    const onFinish = (values) => {
-        console.log('Success:', values);
-      };
+
+    const openNotification = (placement,msg) => {
+      api.error({
+        message: "温馨提示",
+        description:msg,
+        placement,
+      });
+    };
+    const onFinish = (formData) => {
+      console.log('Success:', formData);
+      console.log(fileList)
+      if (formData.cover_type==="0"&&fileList.length!==1) {
+        openNotification('bottom',"请上传图片")
+        return
+      }
+    };
     return (
         <Modal
         title="发布文章"
@@ -205,13 +218,13 @@ const UploadDialog = forwardRef(({}, ref) => {
         okText="发布文章"
         cancelText="取消"
         maskClosable={false}
-        onOk={onFinish}
+        // onOk={onFinish}
         onCancel={() => setOpen(false)}
         okButtonProps={{htmlType: 'submit', form: 'editForm'}}
         width="50rem"
         
       >
-           
+           {contextHolder}
         <Form name="nest-messages" 
             // form={form}
             id="editForm"
@@ -242,20 +255,28 @@ const UploadDialog = forwardRef(({}, ref) => {
                                     style={{marginRight:"1rem"}}
                                     >
                                     <Upload
-                                        name="avatar"
+                                        name="file"
                                         listType="picture-card"
-                                        showUploadList={false}
-                                        action=""
+                                        action="http://localhost:8080/api/article/upload"
+                                        headers={{
+                                          Authorization:`Bearer ${localStorage.token}`
+                                        }}
                                         fileList={fileList}
                                         onPreview={handlePreview}
-                                        beforeUpload={() => {
-                                          //阻止上传
-                                           return false;
-                                       }}
-                                        onChange={(info) => { handleChange(info) }}
+                                        onChange={handleChange}
                                         >
-                                        {fileList.length>1 ? null : uploadButton}
+                                          {/* {uploadButton} */}
+                                        {fileList.length>0 ? null : uploadButton}
                                     </Upload>
+                                    <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+                                      <img
+                                        alt="example"
+                                        style={{
+                                          width: '100%',
+                                        }}
+                                        src={previewImage}
+                                      />
+                                    </Modal>
                                     </Form.Item>
                                 ): null
 
