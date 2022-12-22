@@ -59,3 +59,7 @@
     flex: 1;
     overflow-y: auto;
 }
+.ant-tag {
+    line-height: 32px;
+    height: 32px;
+}

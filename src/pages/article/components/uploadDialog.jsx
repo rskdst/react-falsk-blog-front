@@ -1,42 +1,12 @@
 import React,{useEffect,useState,forwardRef, useImperativeHandle } from 'react';
 import {createPortal} from "react-dom";
 import "./index.css"
-import {Radio,Form,Input,message, Upload,Modal,Popover,Button,Checkbox, notification, Row,Tag} from 'antd'
+import {Radio,Form,Input,message, Upload,Modal,Select,Button,Checkbox, notification, Row,Tag} from 'antd'
 import { LoadingOutlined, PlusOutlined,CloseOutlined } from '@ant-design/icons';
+import { useRef } from 'react';
+import Tags from './tags';
 const { TextArea } = Input;
-const { CheckableTag } = Tag;
-const tagOptions = [
-    {
-      label: 'Apple',
-      value: '1',
-    },
-    {
-      label: 'Pear',
-      value: '2',
-    },
-    {
-      label: 'Orange',
-      value: '3',
-    },
-    
-    
-  ];
-  const categoryOptions = [
-    {
-      label: 'Apple',
-      value: '1',
-    },
-    {
-      label: 'Pear',
-      value: '2',
-    },
-    {
-      label: 'Orange',
-      value: '3',
-    },
-    
-    
-  ];
+
   const articleTypeOptions = [
     {
       label: '原创',
@@ -89,9 +59,11 @@ const beforeUpload = (file) => {
     }
     return isJpgOrPng && isLt2M;
 };
-const UploadDialog = forwardRef(({}, ref) => {
+const UploadDialog = forwardRef(({...props}, ref) => {
     const document = window.document;
     const node = document.createElement("div");
+    const tRef = useRef(null)
+    const [textAreaValue,setTextAreaValue] = useState("")
 
     const [open, setOpen] = useState(false);
 
@@ -100,9 +72,6 @@ const UploadDialog = forwardRef(({}, ref) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
-
-    const [selectedTags, setSelectedTags] = useState([]);
-    const [selectedCategorys, setselectedCategorys] = useState([]);
 
     const [api, contextHolder] = notification.useNotification();
 
@@ -117,10 +86,6 @@ const UploadDialog = forwardRef(({}, ref) => {
         setOpen:setOpen
     }))
 
-    const onSubmit = (formData)=>{
-        console.log(formData)
-    }
-
     const handleCancel = () => setPreviewOpen(false);
     const handlePreview = async (file) => {
       if (!file.url && !file.preview) {
@@ -130,8 +95,11 @@ const UploadDialog = forwardRef(({}, ref) => {
       setPreviewOpen(true);
       setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
     };
-    const handleChange = ({ fileList: newFileList }) => {
-      setFileList(newFileList)
+    const handleChange = (info) => {
+      setFileList(info.fileList)
+      if (info.file.status==="done"){
+        info.file.url = info.file.response.data.filepath
+      }
       
     };
     const uploadButton = (
@@ -147,19 +115,10 @@ const UploadDialog = forwardRef(({}, ref) => {
           </div>
         </div>
     );
-    const onChangeTags = (checkedValues) => {
-        console.log('checked = ', checkedValues);
-        const nextSelectedTags = tagOptions.filter((tag)=>{
-            return checkedValues.includes(tag.value)})
-        setSelectedTags(nextSelectedTags);
-    };
 
-    const onChangeCategorys = (checkedValues) => {
-        console.log('checked = ', checkedValues);
-        const nextSelectedTags = categoryOptions.filter((tag)=>{
-            return checkedValues.includes(tag.value)})
-            setselectedCategorys(nextSelectedTags);
-    };
+    const handleChangeCategory = (value)=>{
+      console.log(`selected ${value}`);
+    }
 
     const onChangeArticleType = (checkedValues) => {
         console.log('checked = ', checkedValues);
@@ -176,25 +135,6 @@ const UploadDialog = forwardRef(({}, ref) => {
     
     };
 
-    const tag_title = ()=>{
-        return  <h3 style={{width:"20rem",textAlign:"center"}}>
-                    标签
-                </h3>
-    }
-    const tag_content = ()=>{
-        return  <div style={{height:"13rem",overflow:"auto",position:"relative"}}>
-                    <Input placeholder="Enter键入可添加自定义标签"/>
-                        <h4 style={{margin:"5px 0"}}>添加标签</h4>
-                    <Form.Item
-                    name="tag"
-                    initialValue={[]}>
-                        <Checkbox.Group options={tagOptions} onChange={onChangeTags} />
-                    </Form.Item>
-                    
-                    <span style={{fontSize:"12px",color:"#999",position:"absolute",bottom:"0",right:"0"}}>还可添加3个标签</span>
-                </div>
-    }
-
     const openNotification = (placement,msg) => {
       api.error({
         message: "温馨提示",
@@ -202,7 +142,13 @@ const UploadDialog = forwardRef(({}, ref) => {
         placement,
       });
     };
+    //一键提取摘要
+    const handleExtract = ()=>{
+      const title = props.title.current.input.value
+      setTextAreaValue(title)
+    }
     const onFinish = (formData) => {
+      console.log(tRef.current.tags)
       console.log('Success:', formData);
       console.log(fileList)
       if (formData.cover_type==="0"&&fileList.length!==1) {
@@ -287,7 +233,8 @@ const UploadDialog = forwardRef(({}, ref) => {
                         initialValue=""
                         style={{flex:"1"}}
                         >
-                            <TextArea showCount maxLength={256} autoSize={{ minRows: 4, maxRows: 4 }} placeholder="摘要（必填）"/>
+                            <TextArea value={textAreaValue} onChange={(e)=>setTextAreaValue(e.target.value)} showCount maxLength={256} allowClear autoSize={{ minRows: 4, maxRows: 4 }} placeholder="摘要（必填）"/>
+                            <span style={{color: "#555666",position:"absolute",right:"55px",cursor:"pointer"}} onClick={handleExtract}>一键提取</span>
                         </Form.Item>
                     </div>
                     
@@ -296,46 +243,26 @@ const UploadDialog = forwardRef(({}, ref) => {
             <div className='form-tag-box'>
                 <label>文章标签：</label>
                 <div className='form-tag-box-right'>
-                    {selectedTags.length > 0 && <div className='tag-list'>
-                        {selectedTags.map((tag)=>{return <span key={tag.value}>{tag.label}<Button style={{marginLeft:"5px"}} type="link" shape="circle" size='small' icon={<CloseOutlined style={{color:"#267dcc",fontSize:"14px"}}/>}/></span>})}
-                    </div>}
-                    <Popover placement="bottomLeft" title={tag_title} content={tag_content} trigger="click">
-                        {selectedTags.length < 5 && <Button>+添加</Button>}
-                    </Popover>
+                  <Tags ref={tRef}/>
                 </div>
                 
             </div>
             <div className='form-tag-box'>
                 <label>分类专栏：</label>
                 <div className='form-tag-box-right'>
-                    <div style={{height:"1.5rem",marginBottom:"10px"}}>
-                        {selectedCategorys.length > 0 && <div className='tag-list'>
-                            {selectedCategorys.map((tag)=>{return <span key={tag.value}>{tag.label}<Button style={{marginLeft:"5px"}} type="link" shape="circle" size='small' icon={<CloseOutlined style={{color:"#267dcc",fontSize:"14px"}}/>}/></span>})}
-                        </div>}
-                        <span style={{color:"#ccc"}}>请选择</span>
-                    </div>
-                    <div className='category-box'>
-                        <div className='category-box-txt'>
-                            
-                            <h3 style={{color: "#555666"}}>最多选择3个分类专栏</h3>
-                        </div>
-                        <div className='category-box-list'>
-                        <Form.Item
-                        name="category"
-                        initialValue={[]}>
-                            <Checkbox.Group
-                                style={{
-                                width: '100%',
-                                flex:"1"
-                                }}
-                                options={categoryOptions}
-                                onChange={onChangeCategorys}
-                            >
-                            </Checkbox.Group>
-                        </Form.Item>
-                        </div>
-                        
-                    </div>
+                  <Form.Item
+                    name="category"
+                    initialValue="">
+                    <Select
+                      mode="tags"
+                      maxTagCount={3}
+                      style={{
+                        width: '100%',
+                      }}
+                      placeholder="Tags Mode"
+                      onChange={handleChangeCategory}
+                    />
+                  </Form.Item>
                     
                 </div>
             </div>
@@ -395,11 +322,6 @@ const UploadDialog = forwardRef(({}, ref) => {
                 </div>
             
             </div>
-            {/* <Form.Item >
-                    <Button type="primary" htmlType="submit">
-                        确定
-                    </Button>
-                </Form.Item> */}
         </Form>    
       </Modal>
         
