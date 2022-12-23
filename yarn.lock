@@ -6628,6 +6628,11 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
+md-editor-rt@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/md-editor-rt/-/md-editor-rt-2.7.1.tgz#99273b121a5e996af6ae684f45df5bfb326c0ef0"
+  integrity sha512-ZP6Ox8BSr26udY7axv33VXroDj4HLuv1xX0IOfcWuM/DuqXTpbL0EEvCiivNsLdpzD+PP6CDwvK1hEtdKRo5rw==
+
 mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://registry.npmmirror.com/mdn-data/-/mdn-data-2.0.14.tgz"

@@ -4,6 +4,8 @@ import "./index.css"
 import {Radio,Form,Input,message, Upload,Modal,Select,Button,Checkbox, notification, Row,Tag} from 'antd'
 import { LoadingOutlined, PlusOutlined,CloseOutlined } from '@ant-design/icons';
 import { useRef } from 'react';
+import {connect} from "react-redux";
+import { saveArticleAsync } from '../../../store/actions/article';
 import Tags from './tags';
 const { TextArea } = Input;
 
@@ -149,12 +151,38 @@ const UploadDialog = forwardRef(({...props}, ref) => {
     }
     const onFinish = (formData) => {
       console.log(tRef.current.tags)
-      console.log('Success:', formData);
+      
       console.log(fileList)
       if (formData.cover_type==="0"&&fileList.length!==1) {
         openNotification('bottom',"请上传图片")
         return
       }
+      if (tRef.current.tags.length===0){
+        openNotification('bottom',"请添加标签")
+        return
+      }
+      if (formData.category.length===0){
+        openNotification('bottom',"请选择分类专栏")
+        return
+      }
+      console.log(typeof(formData))
+      //上传文章
+
+      formData.title = props.title.current.input.value
+      formData.tags = tRef.current.tags
+      formData.content = props.editor.current.editorText
+      if (formData.cover_type==="0"){
+        formData.cover_pictrue = fileList[0].url
+      }else{
+        formData.cover_pictrue = ""
+      }
+      if (formData.article_type==="1"){
+        formData.original_link = ""
+      }
+      console.log('Success:', formData);
+
+      props.saveArticleAsync(formData)
+
     };
     return (
         <Modal
@@ -233,8 +261,9 @@ const UploadDialog = forwardRef(({...props}, ref) => {
                         initialValue=""
                         style={{flex:"1"}}
                         >
-                            <TextArea value={textAreaValue} onChange={(e)=>setTextAreaValue(e.target.value)} showCount maxLength={256} allowClear autoSize={{ minRows: 4, maxRows: 4 }} placeholder="摘要（必填）"/>
-                            <span style={{color: "#555666",position:"absolute",right:"55px",cursor:"pointer"}} onClick={handleExtract}>一键提取</span>
+                          <TextArea showCount maxLength={256} allowClear autoSize={{ minRows: 4, maxRows: 4 }} placeholder="摘要（必填）"/>
+                            {/* <TextArea value={textAreaValue} onChange={(e)=>setTextAreaValue(e.target.value)} showCount maxLength={256} allowClear autoSize={{ minRows: 4, maxRows: 4 }} placeholder="摘要（必填）"/> */}
+                            {/* <span style={{color: "#555666",position:"absolute",right:"55px",cursor:"pointer"}} onClick={handleExtract}>一键提取</span> */}
                         </Form.Item>
                     </div>
                     
@@ -328,4 +357,11 @@ const UploadDialog = forwardRef(({...props}, ref) => {
     );
 })
  
-export default UploadDialog;
+export default connect(
+  state =>({
+  }),
+  {
+    saveArticleAsync
+  },null, { forwardRef: true }
+)(UploadDialog);
+// export default UploadDialog

@@ -63,3 +63,7 @@
     line-height: 32px;
     height: 32px;
 }
+
+.md-editor  {
+    height: 100%;
+}
