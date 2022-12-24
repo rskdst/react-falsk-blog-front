@@ -62,7 +62,8 @@ const L = (props) => {
                 return (
                     <Menu.Item key={item.key}>
                         <Link to={item.path}> {/*加一个replace是因为当前路由下的 history 不能 push 相同的路径到 stack 里。只有开发环境存在，生产环境不存在，目前还没看到官方有去掉的意思*/}
-                            <span>{item.label}</span>
+                            
+                            <span>{item.icon}&nbsp;&nbsp;{item.label}</span>
                         </Link>
                     </Menu.Item>
                 )               
@@ -82,15 +83,15 @@ const L = (props) => {
                 })
 
                 if(hiddenRouter.length > 0){ //当子路由只有一个且该子路由的hidden为true同时其父路由的hidden为false或不设置其父路由的hidden时则显示其父路由
-                    return <Menu.Item key={item.key}><Link to={item.path}><span>{item.label}</span></Link></Menu.Item>
+                    return <Menu.Item key={item.key}><Link to={item.path}><span>{item.icon}&nbsp;&nbsp;{item.label}</span></Link></Menu.Item>
                 }
 
                 if(noHiddenRouter.length > 0){ //当子路由只有一个且该子路由的hidden为false或不设置该子路由的hidden时则显示其父路由和下拉的子路由                    
                     return (
-                        <SubMenu key={item.key} title={<span>{item.label}</span>}>
+                        <SubMenu key={item.key} title={<span>{item.icon}&nbsp;&nbsp;{item.label}</span>}>
                             {
                                 noHiddenRouter.map(v => {                                
-                                    return <Menu.Item key={v.key}><Link to={v.path}>{v.label}</Link></Menu.Item>                               
+                                    return <Menu.Item key={v.key}><Link to={v.path}>{v.icon}&nbsp;&nbsp;{v.label}</Link></Menu.Item>                               
                                 })
                             }
                         </SubMenu>
@@ -102,7 +103,7 @@ const L = (props) => {
                 let noHiddenRouter = [];
                 item.children.map(v => {
                     if(v.show==="0"){
-                        return <Menu.Item key={item.key}><Link to={item.path}><span>{item.label}</span></Link></Menu.Item>
+                        return <Menu.Item key={item.key}><Link to={item.path}><span>{item.icon}&nbsp;&nbsp;{item.label}</span></Link></Menu.Item>
                     }else{                        
                         noHiddenRouter.push(v)
                         return true
@@ -111,10 +112,10 @@ const L = (props) => {
 
                 if(noHiddenRouter.length > 0){
                     return (
-                        <SubMenu key={item.key} title={<span>{item.label}</span>}>
+                        <SubMenu key={item.key} title={<span>{item.icon}&nbsp;&nbsp;{item.label}</span>}>
                             {
                                 noHiddenRouter.map(v => {                                
-                                    return <Menu.Item key={v.key}><Link to={v.path}>{v.label}</Link></Menu.Item>                               
+                                    return <Menu.Item key={v.key}><Link to={v.path}>{v.icon}&nbsp;&nbsp;{v.label}</Link></Menu.Item>                               
                                 })
                             }
                         </SubMenu>
