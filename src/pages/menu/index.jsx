@@ -50,21 +50,21 @@ const Menu = (props) => {
             dataIndex: 'label',
             key: 'label',
             align:"center",
-            width:'8rem',
+            // width:'8rem',
         },
         {
             title: '父级菜单',
             key: 'parent',
             dataIndex: 'pname',
             align:"center",
-            width:'7rem',
+            // width:'7rem',
         },
         {
             title: '图标',
             dataIndex: 'icon',
             key: 'icon',
             align:"center",
-            width:'4rem',
+            // width:'4rem',
             // onCell:(record, rowIndex)=>{
             //     record.icon = <div style={{textAlign:"center"}} dangerouslySetInnerHTML={{ __html: record.icon }} />
             //     // record.icon = <span style={{textAlign:"center"}} innerHTML={ record.icon} />
@@ -76,21 +76,23 @@ const Menu = (props) => {
             key: 'routepath',
             dataIndex: 'routepath',
             align:"center",
-            width:'7rem',
+            // ellipsis:"true",
+            // width:'7rem',
         },
         {
             title: '组件地址',
             key: 'componentpath',
             dataIndex: 'componentpath',
             align:"center",
-            width:'7rem',
+            // ellipsis:"true",
+            // width:'7rem',
         },
         {
             title: '类型',
             key: 'permission',
             dataIndex: 'type',
             align:"center",
-            width:'4rem',
+            // width:'4rem',
             render: (text)=> {
                 return (
                     text === "菜单" ? <Tag color="volcano">{text}</Tag>
@@ -106,21 +108,22 @@ const Menu = (props) => {
             key: 'permission',
             dataIndex: 'permission',
             align:"center",
-            width:'7rem',
+            // ellipsis:"true",
+            // width:'6rem',
         },
         {
             title: '权重',
             key: 'weight',
             dataIndex: 'weight',
             align:"center",
-            width:'5rem',
+            // width:'5rem',
         },
         {
             title: '启用',
             key: 'state',
             dataIndex: 'state',
             align:"center",
-            width:'4rem',
+            // width:'4rem',
             render: (text)=>{
                 return <Switch defaultChecked={text==="1"}/>
             }
@@ -130,7 +133,7 @@ const Menu = (props) => {
             key: 'show',
             dataIndex: 'show',
             align:"center",
-            width:'4rem',
+            // width:'4rem',
             render: (text)=>{
                 return <Switch defaultChecked={text==="1"}/>
             }
@@ -138,7 +141,7 @@ const Menu = (props) => {
         {
             title: '编辑',
             key: 'action',
-            width:'4rem',
+            // width:'10rem',
             align:"center",
             onHeaderCell:() => ({style:{textAlign: 'left'}}),
             render: (_, record) => (
@@ -164,7 +167,7 @@ const Menu = (props) => {
                     <Button onClick={refresh}>刷新</Button>
                 </div>
             </div>
-            {props.menu_list.length>0 && <Table columns={columns} dataSource={props.menu_list} rowKey={record => record.id} bordered defaultExpandAllRows/>}
+            {props.menu_list.length>0 && <Table columns={columns} dataSource={props.menu_list} rowKey={record => record.id} bordered scroll={{x:true}} defaultExpandAllRows/>}
 
 
         </>
