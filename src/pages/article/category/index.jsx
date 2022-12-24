@@ -37,7 +37,7 @@ const Category = () => {
             <div
                 id="scrollableDiv"
                 style={{
-                    height: 400,
+                    // height: 400,
                     overflow: 'auto',
                     padding: '0 16px',
                 }}

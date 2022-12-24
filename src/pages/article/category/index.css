@@ -53,3 +53,6 @@
     color: #fc5531;
     margin-right: 0;
 }
+.ant-upload.ant-upload-select-picture-card  {
+    width: 100%;
+}
