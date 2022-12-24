@@ -51,13 +51,14 @@ function IncDialog(props) {
         const permission = menu.permission
         const weight = menu.weight
         const state = menu.state ? 1 : 0
+        const show = menu.show ? 1 : 0
         let data
         if (props.operate === "新增菜单"){
-            data = {label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
+            data = {label,pid,pname,icon,routepath,componentpath,type,permission,weight,state,show}
             props.addMenuAsync(data)
 
         }else {
-            data = {id:props.record.id,label,pid,pname,icon,routepath,componentpath,type,permission,weight,state}
+            data = {id:props.record.id,label,pid,pname,icon,routepath,componentpath,type,permission,weight,state,show}
             props.editMenuAsync(data)
         }
 
@@ -109,6 +110,9 @@ function IncDialog(props) {
                 </Form.Item>
                 <Form.Item name={['menu', 'state']} label="启用" valuePropName={props.record.state==="1"?"checked":"unchecked"} initialValue={props.record.state||"1"} labelCol={{'span': 4, 'offset': 2}}>
                     <Switch defaultChecked={Object.keys(props.record).length>0&&props.record.state==="0"?false:true}/>
+                </Form.Item>
+                <Form.Item name={['menu', 'show']} label="展示" valuePropName={props.record.show==="1"?"checked":"unchecked"} initialValue={props.record.show||"1"} labelCol={{'span': 4, 'offset': 2}}>
+                    <Switch defaultChecked={Object.keys(props.record).length>0&&props.record.show==="0"?false:true}/>
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }} labelCol={{'span': 4, 'offset': 2}}>
                     <Button type="primary" htmlType="submit">

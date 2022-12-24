@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from 'react';
-import { Breadcrumb, Layout, Menu } from 'antd';
-import {useNavigate,useRoutes,useLocation} from 'react-router-dom'
+import { Breadcrumb, Layout, Menu,Icon } from 'antd';
+import {useNavigate,useRoutes,useLocation,Link} from 'react-router-dom'
 import HeaderBar from "../components/headerBar";
 import './index.css'
 import {connect} from "react-redux";
 import {getMenuAsync} from "../store/actions/menu";
 const { Header, Content, Footer, Sider } = Layout;
-
+const { SubMenu } = Menu;
 const L = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     const location = useLocation()
@@ -53,6 +53,78 @@ const L = (props) => {
         }
     };
 
+    //展示侧边栏菜单
+    const getMenuList = ()=>{
+        return props.menu.map(item => {
+            if(!item.children || item.children.length === 0){    //如果当前路由没有子路由且该路由的hidden为false或不设置该路由的hidden时则直接显示该路由，若该路由的hidden为true则不显示该路由
+                if(item.show==="0") return false
+
+                return (
+                    <Menu.Item key={item.key}>
+                        <Link to={item.path}> {/*加一个replace是因为当前路由下的 history 不能 push 相同的路径到 stack 里。只有开发环境存在，生产环境不存在，目前还没看到官方有去掉的意思*/}
+                            <span>{item.label}</span>
+                        </Link>
+                    </Menu.Item>
+                )               
+            }else if(item.children && item.children.length === 1){
+                if(item.show==="0") return false
+
+                let noHiddenRouter = [];
+                let hiddenRouter = [];
+                item.children.map(v => {
+                    if(v.show==="0"){
+                        hiddenRouter.push(v)
+                    }else{                        
+                        noHiddenRouter.push(v)
+                    }
+
+                    return true
+                })
+
+                if(hiddenRouter.length > 0){ //当子路由只有一个且该子路由的hidden为true同时其父路由的hidden为false或不设置其父路由的hidden时则显示其父路由
+                    return <Menu.Item key={item.key}><Link to={item.path}><span>{item.label}</span></Link></Menu.Item>
+                }
+
+                if(noHiddenRouter.length > 0){ //当子路由只有一个且该子路由的hidden为false或不设置该子路由的hidden时则显示其父路由和下拉的子路由                    
+                    return (
+                        <SubMenu key={item.key} title={<span>{item.label}</span>}>
+                            {
+                                noHiddenRouter.map(v => {                                
+                                    return <Menu.Item key={v.key}><Link to={v.path}>{v.label}</Link></Menu.Item>                               
+                                })
+                            }
+                        </SubMenu>
+                    )
+                }
+            }else if(item.children && item.children.length > 1){  //当当前路由有两个及两个以上子路由时，若两个子路由的hidden都为true时则该路由和其子路由全部隐藏
+                if(item.show==="0") return false
+
+                let noHiddenRouter = [];
+                item.children.map(v => {
+                    if(v.show==="0"){
+                        return <Menu.Item key={item.key}><Link to={item.path}><span>{item.label}</span></Link></Menu.Item>
+                    }else{                        
+                        noHiddenRouter.push(v)
+                        return true
+                    }
+                })
+
+                if(noHiddenRouter.length > 0){
+                    return (
+                        <SubMenu key={item.key} title={<span>{item.label}</span>}>
+                            {
+                                noHiddenRouter.map(v => {                                
+                                    return <Menu.Item key={v.key}><Link to={v.path}>{v.label}</Link></Menu.Item>                               
+                                })
+                            }
+                        </SubMenu>
+                    )
+                }
+            }
+
+            return true
+        });
+    }
 
     return (
         <div className='container'>
@@ -64,9 +136,11 @@ const L = (props) => {
                           openKeys={openKeys}
                           onOpenChange={onOpenChange}
                           mode="inline"
-                          items={props.menu}
+                        //   items={props.menu}
 
-                          onClick={(data) => navigate(data.key)}/>
+                          onClick={(data) => navigate(data.key)}>
+                            {getMenuList()}
+                          </Menu>
 
                 </Sider>
                 <Layout className="site-layout">

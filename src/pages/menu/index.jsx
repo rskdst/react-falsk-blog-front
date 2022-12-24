@@ -126,6 +126,16 @@ const Menu = (props) => {
             }
         },
         {
+            title: '展示',
+            key: 'show',
+            dataIndex: 'show',
+            align:"center",
+            width:'4rem',
+            render: (text)=>{
+                return <Switch defaultChecked={text==="1"}/>
+            }
+        },
+        {
             title: '编辑',
             key: 'action',
             width:'4rem',
