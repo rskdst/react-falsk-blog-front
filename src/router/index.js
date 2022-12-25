@@ -1,9 +1,7 @@
 import loadable from "@loadable/component";
-import {useRoutes} from 'react-router-dom'
 import { deepClone } from "../utils/common";
 import * as Icon from '@ant-design/icons'
 import React from "react";
-import menu from "../pages/menu";
 export default function GetRoutes(menus) {
     function bindRouter(routes) {
         for (let i=0;i<routes.length;i++){
@@ -13,7 +11,7 @@ export default function GetRoutes(menus) {
             if (routes[i].children){
                 
                 routes[i].iconname=routes[i].icon.slice()
-                if (typeof(routes[i].icon)=='string'){
+                if (typeof(routes[i].icon)=='string' && routes[i].icon.length>0){
                     routes[i].icon = React.createElement(Icon[routes[i].icon])
                 }
                 routes[i].path = routes[i].routepath
@@ -27,7 +25,7 @@ export default function GetRoutes(menus) {
                 }
             }else {
                 routes[i].iconname=routes[i].icon.slice()
-                if (typeof(routes[i].icon)=='string'){
+                if (typeof(routes[i].icon)=='string' && routes[i].icon.length>0){
                     routes[i].icon = React.createElement(Icon[routes[i].icon])
                 }
                 routes[i].path = routes[i].routepath

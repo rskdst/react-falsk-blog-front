@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 
 
-import {Button, Form, Input, Switch, Upload, TreeSelect} from 'antd';
+import {Button, Form, Input, Switch, TreeSelect} from 'antd';
 import Tip from "../../../components/layout/Tip";
 import './index.css'
 import {connect} from "react-redux";
@@ -40,7 +40,6 @@ function IncDialog(props) {
     //新增,更新菜单数据
     const onSubmit = (formData) =>{
         const menu = formData.menu
-
         const label = menu.label
         const pid = form.getFieldValue("parent")===undefined?0:form.getFieldValue("parent")
         const pname = menu.parent===null?"":menu.parent
@@ -50,8 +49,8 @@ function IncDialog(props) {
         const type = menu.type
         const permission = menu.permission
         const weight = menu.weight
-        const state = menu.state ? 1 : 0
-        const show = menu.show ? 1 : 0
+        const state = menu.state && menu.state!="0" ? 1 : 0
+        const show = menu.show  && menu.show!="0" ? 1 : 0
         let data
         if (props.operate === "新增菜单"){
             data = {label,pid,pname,icon,routepath,componentpath,type,permission,weight,state,show}
@@ -108,10 +107,10 @@ function IncDialog(props) {
                 <Form.Item name={['menu', 'weight']} label="权重" initialValue={props.record.weight || ""} rules={[{required:true }]} labelCol={{'span': 5, 'offset': 1}}>
                     <Input />
                 </Form.Item>
-                <Form.Item name={['menu', 'state']} label="启用" valuePropName={props.record.state==="1"?"checked":"unchecked"} initialValue={props.record.state||"1"} labelCol={{'span': 4, 'offset': 2}}>
+                <Form.Item name={['menu', 'state']} label="启用" initialValue={props.record.state||"1"} labelCol={{'span': 4, 'offset': 2}}>
                     <Switch defaultChecked={Object.keys(props.record).length>0&&props.record.state==="0"?false:true}/>
                 </Form.Item>
-                <Form.Item name={['menu', 'show']} label="展示" valuePropName={props.record.show==="1"?"checked":"unchecked"} initialValue={props.record.show||"1"} labelCol={{'span': 4, 'offset': 2}}>
+                <Form.Item name={['menu', 'show']} label="展示" initialValue={props.record.show||"1"} labelCol={{'span': 4, 'offset': 2}}>
                     <Switch defaultChecked={Object.keys(props.record).length>0&&props.record.show==="0"?false:true}/>
                 </Form.Item>
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }} labelCol={{'span': 4, 'offset': 2}}>

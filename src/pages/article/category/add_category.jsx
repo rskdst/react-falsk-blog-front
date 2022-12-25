@@ -2,14 +2,18 @@ import React,{useState} from 'react';
 import { Form,Input,Upload,Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addArticleCategoryAsync } from '../../../store/actions/article';
 
 import "./index.css"
-const AddCategory = () => {
+const AddCategory = (props) => {
     const navigate = useNavigate()
     const [fileList, setFileList] = useState([])
 
-    const onFinish = ()=>{
-
+    const onFinish = (formData)=>{
+        console.log(formData)
+        props.addArticleCategoryAsync(formData)
+        
     }
     
     return ( 
@@ -46,6 +50,7 @@ const AddCategory = () => {
                 <Form.Item
                     label="分类专栏配图"
                     name="category_picture"
+                    initialValue=""
                 >
                     <Upload
                         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
@@ -79,4 +84,10 @@ const AddCategory = () => {
      );
 }
  
-export default AddCategory;
+export default connect(
+    state =>({
+    }),
+    {
+        addArticleCategoryAsync
+    }
+)(AddCategory);

@@ -1,4 +1,4 @@
-import React, {useEffect,useState,useMemo} from 'react';
+import React, {useState} from 'react';
 import { Space, Table, Button,Tag,Switch } from 'antd';
 import './menu.css'
 import {connect} from "react-redux";

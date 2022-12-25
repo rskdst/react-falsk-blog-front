@@ -20,7 +20,9 @@ export default {
     addRoleMenu:"/role/addMenuPermission",
 
     //文章
-    saveArticle:"/article/save"
+    saveArticle:"/article/save",
+    addArticleCategory:"/article/addCategory",
+    getArticleCategory:"/article/getCategory"
     
 
 }
