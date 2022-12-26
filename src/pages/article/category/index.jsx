@@ -6,7 +6,6 @@ import { getArticleCategoryAsync } from '../../../store/actions/article';
 import "./index.css"
 import InfiniteScroll from 'react-infinite-scroll-component';
 const Category = (props) => {
-    console.log("@@@",props.categorys)
     const navigate = useNavigate()
     useEffect(() => {
     //   loadMoreData();

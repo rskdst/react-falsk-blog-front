@@ -5,6 +5,7 @@ import '../container.css'
 import {Button, Space, Table} from "antd";
 import {connect} from "react-redux";
 import {getRoleAsync} from "../../store/actions/role";
+import {getMenuListAsync} from "../../store/actions/menu";
 import Dialog from "../../components/layout/Dialog";
 import PermissionDialog from "./components/permissionDialog";
 
@@ -14,7 +15,8 @@ function Role(props) {
     const [operate,setOperate] = useState("") // dialog 标题
 
     useEffect(()=>{
-        props.getRoleAsync()
+        props.getRoleAsync() //请求角色列表
+        props.getMenuListAsync() //请求菜单列表
     },[])
 
     const changeDialog = () => {
@@ -83,6 +85,8 @@ export default connect(
         role:state.role
     }),
     {
-        getRoleAsync
+        getRoleAsync,
+        getMenuListAsync
+        
     }
 )(Role);

@@ -4,35 +4,26 @@ import * as Icon from '@ant-design/icons'
 import React from "react";
 export default function GetRoutes(menus) {
     function bindRouter(routes) {
+        
         for (let i=0;i<routes.length;i++){
-            const Component = loadable(() => {
-                return import("../"+routes[i].componentpath)
-            })
-            if (routes[i].children){
-                
-                routes[i].iconname=routes[i].icon.slice()
-                if (typeof(routes[i].icon)=='string' && routes[i].icon.length>0){
-                    routes[i].icon = React.createElement(Icon[routes[i].icon])
-                }
-                routes[i].path = routes[i].routepath
-                routes[i].key = routes[i].routepath
-                
-                routes[i].children = [...bindRouter(routes[i].children)]
-                if (routes[i].children[0].type === "按钮") {
-                    routes[i].element=<Component />
-                    delete routes[i].children
-                    continue
-                }
-            }else {
-                routes[i].iconname=routes[i].icon.slice()
-                if (typeof(routes[i].icon)=='string' && routes[i].icon.length>0){
-                    routes[i].icon = React.createElement(Icon[routes[i].icon])
-                }
-                routes[i].path = routes[i].routepath
-                routes[i].key = routes[i].routepath
-
-                routes[i].element=<Component />
+            if (routes[i].type === "按钮") {
+                continue
             }
+            if (routes[i].children){
+                routes[i].children = [...bindRouter(routes[i].children)]
+            }
+            routes[i].iconname=routes[i].icon.slice()
+            if (typeof(routes[i].icon)=='string' && routes[i].icon.length>0){
+                routes[i].icon = React.createElement(Icon[routes[i].icon])
+            }
+            routes[i].path = routes[i].routepath
+            routes[i].key = routes[i].routepath
+            if (routes[i].componentpath!=="#"&&routes[i].componentpath!==""){
+                const Component = loadable(() => {
+                    return import("../"+routes[i].componentpath)
+                })
+                routes[i].element=<Component />
+            }    
             
         }
         return routes
@@ -103,7 +94,6 @@ export default function GetRoutes(menus) {
         
     // } 
     // let [...routes] = menus
-    let routes = deepClone(menus)
-    return {menus,routes:bindRouter(routes)}
+    return bindRouter(menus)
 
 }

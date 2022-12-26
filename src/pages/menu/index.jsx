@@ -1,17 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { Space, Table, Button,Tag,Switch } from 'antd';
 import './menu.css'
 import {connect} from "react-redux";
 import IncDialog from "./components/IncDialog";
 import Dialog from "../../components/layout/Dialog";
 import AuthButton from "../../components/Permissions/authButton";
-import { getMenuAsync } from '../../store/actions/menu';
+import { getMenuListAsync } from '../../store/actions/menu';
 
 
 const Menu = (props) => {
     const [dialogShow,setDialogShow] = useState({state:false}) // dialog显示
     const [record,setRecord] = useState({}) // dialog record数据
     const [operate,setOperate] = useState("") // dialog 标题
+
+    useEffect(()=>{
+        props.getMenuListAsync()
+    },[])
 
     const changeDialog = () => {
         setDialogShow({state:!dialogShow.state});
@@ -41,7 +45,7 @@ const Menu = (props) => {
 
     //刷新菜单
     const refresh = ()=>{
-        props.getMenuAsync()
+        props.getMenuListAsync()
     }
 
     const columns = [
@@ -179,6 +183,6 @@ export default connect(
         menu_list:state.menu_list
     }),
     {
-        getMenuAsync
+        getMenuListAsync
     }
 )(Menu);

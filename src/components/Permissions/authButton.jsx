@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { existValue } from '../../utils/common';
 
 function AuthButton(props) {
-    const {name,root,menu_list,...others} = props
+    const {name,root,menu,...others} = props
     
-    if (existValue(menu_list,root,name)){
+    if (existValue(menu,root,name)){
         return <Button {...others}/>
     }
     return React.ReactNode
@@ -15,7 +15,7 @@ function AuthButton(props) {
 
 export default connect(
     state =>({
-        menu_list:state.menu_list
+        menu:state.menu
     }),
     {
         

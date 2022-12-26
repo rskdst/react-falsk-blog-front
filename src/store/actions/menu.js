@@ -5,6 +5,12 @@ export const getMenuAsync = () => {
         type: GETMENU_ASYNC
     }
 }
+//获取完整菜单列表
+export const getMenuListAsync = () => {
+    return {
+        type: GETMENULIST_ASYNC
+    }
+}
 
 export const addMenuAsync = (data) => {
     return {
