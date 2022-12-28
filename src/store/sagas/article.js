@@ -3,7 +3,15 @@ import request from '../../utils/request'
 import api from '../../services/index'
 import {message} from "antd";
 
-import {SAVEARTICLE,ADDCATEGORY,GETCATEGORY,GETCATEGORY_ASYNC} from '../constants'
+import {SAVEARTICLE,
+    ADDCATEGORY,
+    GETCATEGORY,
+    GETCATEGORY_ASYNC,
+    GETQUERYCRITERIA,
+    GETQUERYCRITERIA_ASYNC,
+    GETARTICLELIST,
+    GETARTICLELIST_ASYNC
+} from '../constants'
 
 //更新菜单
 function* saveArticle({data}) {
@@ -36,7 +44,32 @@ function* getCategory() {
     try{
         const res = yield call(request.get,api.getArticleCategory)
         yield put({type: GETCATEGORY,data:res.data});
-        message.success("获取成功！")
+    }catch (e) {
+        console.log("异步请求出错")
+        message.error("获取失败！")
+    }
+
+}
+
+//获取文章筛选相关数据
+function* getQueryCriteria() {
+    //此处编写异步请求
+    try{
+        const res = yield call(request.get,api.getQueryCriteria)
+        yield put({type: GETQUERYCRITERIA,data:res.data});
+    }catch (e) {
+        console.log("异步请求出错")
+        message.error("获取失败！")
+    }
+
+}
+
+//获取文章数据
+function* getArticleList() {
+    //此处编写异步请求
+    try{
+        const res = yield call(request.get,api.getArticleList)
+        yield put({type: GETARTICLELIST,data:res.data});
     }catch (e) {
         console.log("异步请求出错")
         message.error("获取失败！")
@@ -49,4 +82,6 @@ export function* takeArticle() {
     yield takeEvery(SAVEARTICLE, saveArticle);
     yield takeEvery(ADDCATEGORY, addCategory);
     yield takeEvery(GETCATEGORY_ASYNC, getCategory);
+    yield takeEvery(GETQUERYCRITERIA_ASYNC, getQueryCriteria);
+    yield takeEvery(GETARTICLELIST_ASYNC, getArticleList);
 }

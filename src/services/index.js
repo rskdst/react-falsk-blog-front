@@ -22,8 +22,10 @@ export default {
 
     //文章
     saveArticle:"/article/save",
+    getArticleList:"article/list",
     addArticleCategory:"/article/addCategory",
-    getArticleCategory:"/article/getCategory"
+    getArticleCategory:"/article/getCategory",
+    getQueryCriteria:"/article/getQueryCriteria"
     
 
 }

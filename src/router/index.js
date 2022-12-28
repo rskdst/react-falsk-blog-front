@@ -1,5 +1,4 @@
 import loadable from "@loadable/component";
-import { deepClone } from "../utils/common";
 import * as Icon from '@ant-design/icons'
 import React from "react";
 export default function GetRoutes(menus) {

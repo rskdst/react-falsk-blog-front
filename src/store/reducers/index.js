@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import {menu,menu_list} from './menu';
 import {user} from './user';
 import {role,role_list} from './role'
-import { categorys } from './article';
+import { categorys,queryCriteria,articles } from './article';
 
 export default combineReducers({
     menu,
@@ -10,5 +10,7 @@ export default combineReducers({
     user,
     role,
     role_list,
-    categorys
+    categorys,
+    queryCriteria,
+    articles
 })

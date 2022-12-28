@@ -21,10 +21,7 @@ function User(props) {
     const [userid,setUserid] = useState() // dialog 人员id
     //请求用户数据
     useEffect(()=>{
-        if (props.user.length===0){
-            props.getUser()
-        }
-
+        props.getUser()
     },[])
 
     const changeDialog = () => {

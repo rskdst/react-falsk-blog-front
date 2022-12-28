@@ -5,7 +5,7 @@ import {Radio,Form,Input,message, Upload,Modal,Select,Button,Checkbox, notificat
 import { LoadingOutlined, PlusOutlined,CloseOutlined } from '@ant-design/icons';
 import { useRef } from 'react';
 import {connect} from "react-redux";
-import { saveArticleAsync } from '../../../store/actions/article';
+import { saveArticleAsync,getArticleCategoryAsync } from '../../../store/actions/article';
 import Tags from './tags';
 const { TextArea } = Input;
 
@@ -62,6 +62,7 @@ const beforeUpload = (file) => {
     return isJpgOrPng && isLt2M;
 };
 const UploadDialog = forwardRef(({...props}, ref) => {
+  console.log(props)
     const document = window.document;
     const node = document.createElement("div");
     const tRef = useRef(null)
@@ -77,6 +78,10 @@ const UploadDialog = forwardRef(({...props}, ref) => {
 
     const [api, contextHolder] = notification.useNotification();
 
+    useEffect(()=>{
+      //获取专栏数据
+      props.getArticleCategoryAsync()
+    },[])
     useEffect(() => {
         document.body.appendChild(node)
         return () => {
@@ -281,15 +286,17 @@ const UploadDialog = forwardRef(({...props}, ref) => {
                 <div className='form-tag-box-right'>
                   <Form.Item
                     name="category"
-                    initialValue="">
+                    initialValue={undefined}>
                     <Select
                       mode="tags"
                       maxTagCount={3}
                       style={{
                         width: '100%',
                       }}
-                      placeholder="Tags Mode"
+                      placeholder="最多添加3个专栏"
                       onChange={handleChangeCategory}
+                      fieldNames={{label:"category_name",value:"id"}}
+                      options={props.categorys}
                     />
                   </Form.Item>
                     
@@ -359,9 +366,11 @@ const UploadDialog = forwardRef(({...props}, ref) => {
  
 export default connect(
   state =>({
+    categorys:state.categorys
   }),
   {
-    saveArticleAsync
+    saveArticleAsync,
+    getArticleCategoryAsync
   },null, { forwardRef: true }
 )(UploadDialog);
 // export default UploadDialog

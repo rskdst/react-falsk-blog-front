@@ -31,7 +31,7 @@
   color: #1677ff;
 
 }
-.active {
+.formHeader .active {
   color: #1677ff;
   border-bottom: 1px solid #1677ff;
 }

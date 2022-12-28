@@ -1,0 +1,111 @@
+.content-main {
+    display: flex;
+    flex-direction: column;
+}
+.content-search {
+    margin-bottom: 1rem;
+}
+.content-ul {
+    width: 70%;
+    display: inline-flex;
+    list-style:none;
+    padding: 0px;
+    margin: 0 0 1rem 0;
+}
+.content-ul li {
+    list-style-type: none;
+    cursor: pointer;
+    color: #999;
+    margin-right: 1rem;
+}
+.content-ul li.active {
+    color: #222226;
+    font-weight: 500;
+}
+.list-article {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    
+}
+.content-list .ant-list-item {
+    border-bottom: 2px dotted #ddd !important;
+}
+.article-info-title a {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555666;
+    flex-shrink: 1;
+    word-wrap: break-word;
+    word-break: break-word;
+    text-decoration: none;
+    cursor: pointer;
+}
+.article-info-title a:hover {
+    color: red;
+}
+.article-date {
+    position: absolute;
+    right: 0;
+    min-width: 142px;
+    text-align: right;
+    height: 24px;
+    line-height: 24px;
+    color: #999;
+    font-size: 14px;
+}
+.list-article .ant-tag {
+    font-size: 12px;
+    width: 32px;
+    height: 18px;
+    margin-right: 8px;
+    padding: 0 4px;
+    color: #fc5531;
+    background: #fff5f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.list-article .article-level {
+    width: 55px;
+    background: #f5f5f5;
+    color: #999aaa;
+}
+.article-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.article-info-left {
+    display: flex;
+    align-items: center;
+}
+.article-info-right {
+    display: flex;
+    position: absolute;
+    right: 0;
+}
+.article-list-item-readComment {
+    color: #999aaa;
+    margin: 0 8px 0 0;
+    position: relative;
+}
+.circle-step {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    margin-right: 8px;
+    background: #555666;
+    vertical-align: middle;
+    border-radius: 50%;
+    color: #999aaa;
+}
+.item-info-oper-text {
+    color: #222226;
+    padding: 0 0 0 12px;
+    cursor: pointer;
+
+}
+.item-info-oper-text:hover {
+    color: #999;
+}
